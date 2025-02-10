@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
+import 'package:ecomapp/Wdigets/PopUpMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
 
@@ -15,51 +18,7 @@ class AuthController extends GetxController {
     update();
   }
 
-  void snackBarMessagePopup(status, messgae, color, showbtn) {
-    Get.snackbar(
-      status, // Title of the snackbar
-      messgae, // Message
-      snackPosition: SnackPosition.BOTTOM, // Position of the snackbar
-      backgroundColor: color, // Background color
-      colorText: Colors.white, // Text color
-      borderRadius: 10, // Border radius for rounded corners
-      margin: EdgeInsets.all(15), // Margin around the snackbar
-      padding: EdgeInsets.symmetric(
-          vertical: 15, horizontal: 20), // Padding inside the snackbar
-      duration: Duration(
-          seconds: 3), // Duration for which the snackbar will be visible
-      icon: showbtn
-          ? Icon(
-              Icons.error, // Icon to display in the snackbar
-              color: Colors.white,
-            )
-          : null,
-
-      mainButton: showbtn
-          ? TextButton(
-              onPressed: () {
-                // Handle the button click here
-                Get.back();
-              },
-              child: Text(
-                "Retry",
-                style: TextStyle(color: Colors.white),
-              ),
-            )
-          : null,
-      isDismissible: true, // Allow dismissing the snackbar
-      showProgressIndicator:
-          true, // Show a progress indicator while the snackbar is visible
-      progressIndicatorBackgroundColor:
-          Colors.white, // Progress indicator background color
-      forwardAnimationCurve:
-          Curves.easeOut, // Animation curve for the snackbar appearance
-      reverseAnimationCurve:
-          Curves.easeIn, // Animation curve for the snackbar dismissal
-    );
-  }
-
-
+  
 
   signUpUser(name, email, password) async {
     try {
@@ -75,7 +34,8 @@ class AuthController extends GetxController {
         "UserEmail" : email,
         "UserPassword" : password,
         "UserType" : "user",
-        "UserId" : uid
+        "UserId" : uid,
+        "Block" : false
       };
 
   print(userdata);
@@ -119,6 +79,7 @@ class AuthController extends GetxController {
           var data = documentSnapshot.data() as Map;
 
           print('USER data: ${data["UserType"]}');
+
           if(data["block"]==true){
             snackBarMessagePopup("Block", "Contact For Admin",Colors.red,true);
 
@@ -136,8 +97,9 @@ class AuthController extends GetxController {
             if (documentSnapshot.exists) {
               var data = documentSnapshot.data() as Map;
               print('admin data: ${data["UserType"]}');
-              // setPrefernce(data);
-              // Get.offAll(AdminDashboard());
+               setPreferences(data);
+              // Get.to give the back option & Get.ofAll replace the pagr not allow to back the page from where you come
+              Get.offAll(AdminDashboard());
             } else {
               print('Document does not exist on the database');
             }
@@ -156,4 +118,14 @@ class AuthController extends GetxController {
     }
   }
 
+
+
+  setPreferences(data) async {
+    final SharedPreferences sharedprefs = await SharedPreferences.getInstance(); 
+    sharedprefs.setBool("Login", true);
+    sharedprefs.setString("username", data["UserName"]);
+    sharedprefs.setString("useremail", data["UserEmail"]);
+    sharedprefs.setString("usertype", data["UserType"]);
+    sharedprefs.setString("userid", data["UserId"]);
+  }
 }

@@ -13,13 +13,13 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
- 
+
 class _LoginState extends State<Login> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var authController = Get.put(AuthController());
-  bool passwordHidden = true;  // State to manage password visibility
+  bool passwordHidden = true; // State to manage password visibility
 
   void login() {
     if (_formKey.currentState!.validate()) {
@@ -83,18 +83,6 @@ class _LoginState extends State<Login> {
   }
 
   // Password Validator
-  String? passwordValidator(String? value) {
-    RegExp passwordRegex = RegExp(
-        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
-    if (value == null || value.isEmpty) {
-      return "Password is required";
-    } else if (value.length < 6) {
-      return "Password must be at least 6 characters";
-    } else if (!passwordRegex.hasMatch(value)) {
-      return "Password use A-Z, a-z, 0-9 & a special character.";
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +110,16 @@ class _LoginState extends State<Login> {
                           validator: emailValidator,
                           prefixIcon: Icons.email,
                           width: ScreenWidth * 10,
-                          obscureText: false),  // Email should not be obscured
+                          obscureText: false), // Email should not be obscured
                       TextFieldWidget(
                         controller: passwordcontroller,
                         hintText: "Enter the password",
                         prefixIcon: Icons.lock,
                         suffixIcon: IconButton(
                           icon: Icon(
-                            passwordHidden ? Icons.visibility_off : Icons.visibility,
+                            passwordHidden
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
@@ -137,21 +127,21 @@ class _LoginState extends State<Login> {
                             });
                           },
                         ),
-                        validator: passwordValidator,
-                        obscureText: passwordHidden,  // Dynamically toggle password visibility
+                        obscureText:
+                            passwordHidden, // Dynamically toggle password visibility
                         width: ScreenWidth * 10,
                       )
                     ],
                   )),
-
-                  controller.isLoading ? CircularProgressIndicator() : 
-              ElevatedButtonWidget(
-                buttonText: "Login",
-                buttonwidth: ScreenWidth,
-                onPress: () {
-                  login();
-                },
-              )
+              controller.isLoading
+                  ? CircularProgressIndicator()
+                  : ElevatedButtonWidget(
+                      buttonText: "Login",
+                      buttonwidth: ScreenWidth,
+                      onPress: () {
+                        login();
+                      },
+                    )
             ],
           )),
         );

@@ -1,6 +1,9 @@
+import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
+import 'package:ecomapp/View/Auth/Signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,8 +25,33 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     Future.delayed(const Duration(seconds: 5), () {
-      Get.to(Login());
+      // Get.to(Login());
+      checkUserLoginStatus();
     });
+  }
+
+  checkUserLoginStatus () async {
+    final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
+    var userCheck = sharedprefs.getBool("Login") ?? false;
+    var usertype = sharedprefs.getString("usertype");
+    var userid = sharedprefs.getString("userid");
+
+    print("User logged in: $userCheck"); // Debugging
+    print("User type: $usertype"); // Debugging
+    print("User ID: $userid"); // Debugging
+
+    if (userCheck) {
+      var usertype = sharedprefs.getString("usertype");
+      var userid = sharedprefs.getString("userid")!;
+      if (usertype == "admin") {
+        Get.offAll(AdminDashboard());
+      } else {
+        print("user");
+        // Get.offAll(UserDashboard());
+      }
+    } else {
+      Get.offAll(Login());
+    }
   }
 
   @override
