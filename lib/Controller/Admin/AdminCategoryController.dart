@@ -44,7 +44,7 @@ class AdminCategoryController extends GetxController {
         "Status": true,
         "CategoryKey": key
       };
-      
+
       await categories.doc(key).set(categoryData);
       snackBarMessagePopup("Success", "Category Added", Colors.green, false);
 
@@ -53,19 +53,27 @@ class AdminCategoryController extends GetxController {
   }
 
   deleteCategory(index) async {
-    await categories.doc(CategoryList[index]["CategoryKey"]).delete(); 
+    await categories.doc(CategoryList[index]["CategoryKey"]).delete();
     CategoryList.removeAt(index);
     update();
   }
 
-  updateCategoryStatus(index) async {
-    print("Update Cateogory");
-    await categories.doc(CategoryList[index]["CategoryKey"]).update({
-      "Status" : !CategoryList[index]["Status"]
-    }); 
-CategoryList[index]["Status"] = !CategoryList[index]["Status"];
-update();
-
+  updateCategoryStatus(index, status, categoryEditName) async {
+    if (status == true) {
+      print("Update Cateogory status");
+      await categories
+          .doc(CategoryList[index]["CategoryKey"])
+          .update({"Status": !CategoryList[index]["Status"]});
+      CategoryList[index]["Status"] = !CategoryList[index]["Status"];
+      update();
+    } else {
+      print(categoryEditName);
+      //       print("Update Cateogory name");
+      await categories
+          .doc(CategoryList[index]["CategoryKey"])
+          .update({"CategoryName": categoryEditName});
+      update();
+      getCategoryList();
+    }
   }
-
 }

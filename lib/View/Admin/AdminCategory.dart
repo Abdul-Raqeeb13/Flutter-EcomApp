@@ -19,6 +19,7 @@ class _AddCategoryState extends State<AddCategory> {
   TextEditingController inputCategoryController = TextEditingController();
   TextEditingController EditCategoryController = TextEditingController();
   var categoryController = Get.put(AdminCategoryController());
+  var selectedIndex;
 
   @override
   void initState() {
@@ -36,7 +37,9 @@ class _AddCategoryState extends State<AddCategory> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Category Page"),
+        ),
         drawer: Drawer(child: DrawerData()),
         body: GetBuilder<AdminCategoryController>(builder: (controller) {
           return SingleChildScrollView(
@@ -88,7 +91,7 @@ class _AddCategoryState extends State<AddCategory> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            controller.updateCategoryStatus(index);
+                                            controller.updateCategoryStatus(index, true, "");
                                           },
                                           child: Icon(
                                             controller.CategoryList[index]["Status"] ? Icons.check_box : Icons.check_box_outline_blank_rounded,
@@ -111,16 +114,28 @@ class _AddCategoryState extends State<AddCategory> {
                                         SizedBox(width: 10),
                                         GestureDetector(
                                           onTap: () {
+                                            setState(() {
+                                              selectedIndex = index;
+                                              EditCategoryController.text = controller.CategoryList[index]["CategoryName"].toString();
+                                            });
                                             showDialog(
                                               context: context,
                                               builder: (_) => AlertDialog(
                                                 title: TextFieldWidget(controller: EditCategoryController, obscureText: false,),
                                                 actions: [
                                                   ElevatedButtonWidget(
-                                                    buttonText: "Edit",
+                                                    buttonText: "Cancel",
                                                     buttonwidth: screenWidth,
                                                     onPress: (){
-            
+                                                      Navigator.pop(context);
+                                                    }),
+                                                  ElevatedButtonWidget(
+                                                    buttonText: "Update",
+                                                    buttonwidth: screenWidth,
+                                                    onPress: (){
+                                                        controller.updateCategoryStatus(index, false, EditCategoryController.text);
+                                                        Navigator.pop(context);
+
                                                     })
                                                 ],
                                               ),

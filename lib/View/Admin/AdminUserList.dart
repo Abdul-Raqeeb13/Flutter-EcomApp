@@ -31,7 +31,7 @@ class _UserListState extends State<UserList> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: Text("New"),
+              title: Text("User Page"),
             ),
             drawer: Drawer(
               child: DrawerData(),

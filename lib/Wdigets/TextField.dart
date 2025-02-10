@@ -8,8 +8,8 @@ class TextFieldWidget extends StatelessWidget {
   var prefixIcon;
   var suffixIcon;
   TextEditingController controller;
-  final String? Function(String?)? validator; // Validator function
-  bool obscureText;  // Add this to manage visibility
+  final String? Function(String?)? validator;
+  bool obscureText;
 
   TextFieldWidget({
     super.key,
@@ -19,7 +19,7 @@ class TextFieldWidget extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.validator,
-    required this.obscureText,  // Receive the value of obscureText
+    required this.obscureText,
   });
 
   @override
@@ -28,46 +28,43 @@ class TextFieldWidget extends StatelessWidget {
     final ScreenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      width: width,
-      margin: EdgeInsets.symmetric(
-          horizontal: ScreenWidth * 0.05, vertical: ScreenHeight * 0.016),
+      width: ScreenWidth,
+      margin: EdgeInsets.symmetric(horizontal: ScreenWidth * 0.05, vertical: ScreenHeight*0.016),
       decoration: BoxDecoration(
-        color: Colors.white, // Background color
-        borderRadius: BorderRadius.circular(15), // Rounded corners
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black26, // Shadow color
-            blurRadius: 10, // Soft blur effect
-            offset: Offset(2, 2), // Shadow direction
+            color: Colors.black26,
+            blurRadius: 10,
+            offset: Offset(2, 2),
           ),
         ],
       ),
       child: TextFormField(
         controller: controller,
         validator: validator,
-        obscureText: obscureText,  // Bind the obscureText here
+        obscureText: obscureText,
         decoration: InputDecoration(
-          prefixIcon: Icon(prefixIcon),
-          suffixIcon: suffixIcon,  // This will now work with the IconButton
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+          suffixIcon: suffixIcon,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12), // Reduced padding
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15), // Match Container's border
-            borderSide: BorderSide.none, // No default border
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-                color: Colors.blue, width: 2), // Blue border on focus
+            borderSide: BorderSide(color: Colors.blue, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-                color: Colors.grey, width: 1), // Gray border normally
+            borderSide: BorderSide(color: Colors.grey, width: 1),
           ),
           filled: true,
-          fillColor: Colors.white, // Ensures background color is applied
+          fillColor: Colors.white,
         ),
       ),
     );
