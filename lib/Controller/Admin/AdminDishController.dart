@@ -10,8 +10,10 @@ class AdminDishController extends GetxController {
   FirebaseFirestore.instance.collection('Dishes');
   CollectionReference categories =
   FirebaseFirestore.instance.collection('Category');
-  var isLoading = false;
-  var DishList = [];
+  bool isLoading = false;
+  var allDish = [];
+  var dropdownvalue = "" ;
+
   
   setLoading(val) {
     isLoading = val;
@@ -20,17 +22,18 @@ class AdminDishController extends GetxController {
   
 
   getAllCategories() async {
+    setLoading(true);
     print("=============================================== get categories call");
     // DishList.clear();
     
-        await categories.get().then((QuerySnapshot data)  {
+        await categories.where("Status" , isEqualTo: true).get().then((QuerySnapshot data)  {
           final allData = data.docs.map((doc) => doc.data()).toList();
-          for (var i = 0; i < allData.length; i++) {
-            // if (allData[i]["Status"] as Map == true) {
-              
-            // }
-          }
+          // print(allData); 
+          allDish = List.from(allData);
+          // dropdownvalue = List.from(allData);
+          update();
+        setLoading(false);
         });
-        // update();
+
   }
 }
