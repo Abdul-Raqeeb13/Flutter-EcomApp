@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_label
+// ignore_for_file: prefer_const_constructors, unused_label, prefer_const_literals_to_create_immutables, prefer_const_literals_to_create_immutables
 
 import 'package:ecomapp/Controller/Admin/AdminDishController.dart';
 import 'package:ecomapp/View/Admin/DrawerData.dart';
@@ -6,6 +6,8 @@ import 'package:ecomapp/Wdigets/Button.dart';
 import 'package:ecomapp/Wdigets/TextField.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AdminDish extends StatefulWidget {
   const AdminDish({super.key});
@@ -47,11 +49,61 @@ class _AdminDishState extends State<AdminDish> {
                   : Column(
                       // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundImage: NetworkImage("https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-996.jpg?ga=GA1.1.881659082.1730823737&semt=ais_authors_boost"),
-                        ),
-
+                        GestureDetector(
+                            onTap: () {
+                              // its comes from bottom_modal_Sheet
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Wrap(
+                                    children: [
+                                      ListTile(
+                                        leading: Icon(Icons.image),
+                                        title: Text('Pick from Gallery'),
+                                        onTap: () {
+                                          controller.pickProfileImage(
+                                              ImageSource.gallery);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.camera),
+                                        title: Text('Take a Photo'),
+                                        onTap: () {
+                                          controller.pickProfileImage(
+                                              ImageSource.camera);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: Colors.blue,
+                                    width: 1), // Blue border
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 15,
+                                    spreadRadius: 1,
+                                  ),
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                radius: 75,
+                                backgroundColor: Colors.grey[300],
+                                backgroundImage: controller.profileImage != null
+                                    ? FileImage(controller.profileImage)
+                                        as ImageProvider
+                                    : NetworkImage(
+                                        "https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-996.jpg?ga=GA1.1.881659082.1730823737&semt=ais_hybrid_sidr"),
+                              ),
+                            )),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 19),
                           width: screenWidth,
@@ -88,24 +140,20 @@ class _AdminDishState extends State<AdminDish> {
                             // After selecting the desired option,it will
                             // change button value to selected value
                             onChanged: (newValue) {
-                              setState(() {
-                                print(newValue);
-                                newValue as Map;
-                                controller.setDropDownValue(newValue);
-                                // controller.dropdownvalue = newValue["CategoryName"];
-                                // dropdownvalue = newValue!;
-                              });
+                              controller.setDropDownValue(newValue);
                             },
                           ),
                         ),
                         Center(
                           child: TextFieldWidget(
-                              controller: searchController, obscureText: false),
+                              controller: controller.dishName, obscureText: false, hintText: "Enter thr dish name",),
                         ),
                         ElevatedButtonWidget(
-                            buttonText: "Search",
+                            buttonText: "Add Dish",
                             buttonwidth: screenWidth,
-                            onPress: () {}),
+                            onPress: () {
+                              controller.addDish();
+                            }),
                         SizedBox(
                           height: 10,
                         ),
@@ -137,7 +185,7 @@ class _AdminDishState extends State<AdminDish> {
                           ),
                         )
                       ],
-                    );
+                     );
             })));
   }
 }
