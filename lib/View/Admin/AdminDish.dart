@@ -46,7 +46,12 @@ class _AdminDishState extends State<AdminDish> {
                   ? Center(child: CircularProgressIndicator())
                   : Column(
                       // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [ 
+                      children: [
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundImage: NetworkImage("https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-996.jpg?ga=GA1.1.881659082.1730823737&semt=ais_authors_boost"),
+                        ),
+
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 19),
                           width: screenWidth,
@@ -59,13 +64,16 @@ class _AdminDishState extends State<AdminDish> {
                           child: DropdownButton(
                             dropdownColor:
                                 const Color.fromARGB(255, 205, 200, 199),
-                            hint: Text("select Category"),
+
+                            hint: controller.dropdownvalue == ""
+                                ? Text("select Category")
+                                : Text(controller.dropdownvalue.toString()),
                             padding: EdgeInsets.symmetric(horizontal: 10),
 
                             // arrow show on right side
                             isExpanded: true,
                             // Initial Value
-                            value: controller.dropdownvalue,
+                            // value: controller.dropdownvalue,
 
                             // Down Arrow Icon
                             icon: const Icon(Icons.keyboard_arrow_down),
@@ -83,7 +91,8 @@ class _AdminDishState extends State<AdminDish> {
                               setState(() {
                                 print(newValue);
                                 newValue as Map;
-                                controller.dropdownvalue = newValue["CategoryName"];
+                                controller.setDropDownValue(newValue);
+                                // controller.dropdownvalue = newValue["CategoryName"];
                                 // dropdownvalue = newValue!;
                               });
                             },
@@ -104,23 +113,26 @@ class _AdminDishState extends State<AdminDish> {
                           color: Colors.red,
                           height: screenHeight * 0.1,
                           width: screenWidth,
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.center, // Centers buttons
-                              children: controller.allDish.map((dish) {
-                                return Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text(dish["CategoryName"]
-                                        .toString()
-                                        .toUpperCase()),
-                                  ),
-                                );
-                              }).toList(),
+                          child: Center(
+                            // Ensures the Row stays centered within available width
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisSize: MainAxisSize
+                                    .min, // Allows Row to take only needed width
+                                children: controller.allDish.map((dish) {
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text(dish["CategoryName"]
+                                          .toString()
+                                          .toUpperCase()),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ),
                         )

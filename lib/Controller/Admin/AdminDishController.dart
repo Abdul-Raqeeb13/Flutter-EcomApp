@@ -13,15 +13,16 @@ class AdminDishController extends GetxController {
   bool isLoading = false;
   var allDish = [];
   var dropdownvalue = "" ;
+  var selectedDropDownKey = "";
 
   
   setLoading(val) {
     isLoading = val;
-    update();
+    update(); 
   }
   
 
-  getAllCategories() async {
+ getAllCategories() async {
     setLoading(true);
     print("=============================================== get categories call");
     // DishList.clear();
@@ -35,5 +36,14 @@ class AdminDishController extends GetxController {
         setLoading(false);
         });
 
+  }
+
+
+  setDropDownValue(val){
+    dropdownvalue = val["CategoryName"];
+    selectedDropDownKey = val["CategoryKey"];
+    print(dropdownvalue);
+    print(selectedDropDownKey);
+    update();
   }
 }
