@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:ecomapp/Controller/AuthController.dart';
+import 'package:ecomapp/View/Auth/Signup.dart';
 import 'package:ecomapp/Wdigets/Button.dart';
 import 'package:ecomapp/Wdigets/Text.dart';
 import 'package:ecomapp/Wdigets/TextField.dart';
@@ -19,7 +20,7 @@ class _LoginState extends State<Login> {
   TextEditingController passwordcontroller = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var authController = Get.put(AuthController());
-  bool passwordHidden = true; // State to manage password visibility
+  bool passwordHidden = true;
 
   void login() {
     if (_formKey.currentState!.validate()) {
@@ -27,7 +28,6 @@ class _LoginState extends State<Login> {
     }
   }
 
-  // Email Validator
   String? emailValidator(String? value) {
     RegExp emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     if (value == null || value.isEmpty) {
@@ -38,68 +38,92 @@ class _LoginState extends State<Login> {
     return null;
   }
 
-  // Password Validator
-
   @override
   Widget build(BuildContext context) {
-    final ScreenWidth = MediaQuery.of(context).size.width;
-
+    final double screenWidth = MediaQuery.of(context).size.width;
+    
     return GetBuilder<AuthController>(
       builder: (controller) {
         return SafeArea(
           child: Scaffold(
-              body: Column(
-            children: [
-              TextWidget(
-                text: "Login",
-                fontsize: 40.0,
-                color: Colors.blue,
-                fontFamily: "font1",
-              ),
-              Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      TextFieldWidget(
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.network(
+                    'https://img.freepik.com/premium-psd/close-up-italian-food-ingredients-with-logo_23-2148283461.jpg?ga=GA1.1.881659082.1730823737',
+                    height: 240,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(height: 20),
+                  TextWidget(
+                    text: "Login",
+                    fontsize: 40.0,
+                    color: Colors.blue,
+                    fontFamily: "font1",
+                  ),
+                  SizedBox(height: 20),
+
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFieldWidget(
                           controller: emailcontroller,
                           hintText: "Enter the email",
                           validator: emailValidator,
                           prefixIcon: Icons.email,
-                          width: ScreenWidth * 10,
-                          obscureText: false), // Email should not be obscured
-                      TextFieldWidget(
-                        controller: passwordcontroller,
-                        hintText: "Enter the password",
-                        prefixIcon: Icons.lock,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            passwordHidden
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              passwordHidden = !passwordHidden;
-                            });
-                          },
+                          width: screenWidth * 0.9,
+                          obscureText: false,
                         ),
-                        obscureText:
-                            passwordHidden, // Dynamically toggle password visibility
-                        width: ScreenWidth * 10,
-                      )
-                    ],
-                  )),
-              controller.isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButtonWidget(
-                      buttonText: "Login",
-                      buttonwidth: ScreenWidth,
-                      onPress: () {
-                        login();
-                      },
-                    )
-            ],
-          )),
+                        TextFieldWidget(
+                          controller: passwordcontroller,
+                          hintText: "Enter the password",
+                          prefixIcon: Icons.lock,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              passwordHidden
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                passwordHidden = !passwordHidden;
+                              });
+                            },
+                          ),
+                          obscureText: passwordHidden,
+                          width: screenWidth * 0.9,
+                        ),
+                        controller.isLoading
+                            ? CircularProgressIndicator()
+                            : ElevatedButtonWidget(
+                                buttonText: "Login",
+                                buttonwidth: screenWidth * 0.9,
+                                onPress: login,
+                              ),
+                  SizedBox(height: 10),
+
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(Signup());
+                          },
+                          child: Text(
+                            "Don't have an account? Sign up",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

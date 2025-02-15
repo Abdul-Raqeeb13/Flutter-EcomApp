@@ -75,7 +75,6 @@ class AdminDishController extends GetxController {
   }
 
   uploadImageAndDishDataToStorageAndDB() async {
-
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference storageRef = storage.ref().child('DishesImage/${imageName}');
@@ -102,6 +101,12 @@ class AdminDishController extends GetxController {
       setLoading(false);
 
       getDishes(0);
+      dropdownvalue = "";
+      selectedDropDownKey = "";
+      profileImage = null;
+      dishName.text = "";
+      dishPrice.text = "";
+      
     } catch (e) {
       snackBarMessagePopup("Error", e.toString(), Colors.red, true);
     }
@@ -163,7 +168,6 @@ class AdminDishController extends GetxController {
   }
 
   deleteDish(index) async {
-
     await dishes.doc(selectedCategoryDishes[index]["DishKey"]).delete();
     selectedCategoryDishes.removeAt(index);
     update();

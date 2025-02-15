@@ -5,9 +5,7 @@ import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,15 +22,14 @@ class _DrawerDataState extends State<DrawerData> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setLoginUserData();
   }
 
   setLoginUserData() async {
     final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
-    username = sharedprefs.getString("username")!;
-    useremail = sharedprefs.getString("useremail")!;
+    username = sharedprefs.getString("username") ?? "User";
+    useremail = sharedprefs.getString("useremail") ?? "example@mail.com";
 
     setState(() {});
   }
@@ -45,148 +42,84 @@ class _DrawerDataState extends State<DrawerData> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        DrawerHeader(
-            child: Container(
-          width: 300.0,
-          height: 500.0,
-          decoration: BoxDecoration(
+    return Drawer(
+      child: Column(
+        children: [
+          // Drawer Header with a Dark Nature Theme
+          UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
               image: DecorationImage(
-            image: NetworkImage(
-                "https://media.istockphoto.com/vectors/dark-abstract-background-vector-illustration-vector-id929619614?b=1&k=6&m=929619614&s=612x612&w=0&h=bzXWUYZ7R9wMSTmWANhfhh2ct3RAnOBVKMhqLDE1KiY="),
-            // fit: BoxFit.cover
-          )),
-          child: Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon((Icons.supervised_user_circle_rounded)),
-                color: Colors.white,
-                iconSize: 60,
-                onPressed: () {},
+                image: NetworkImage(
+                    "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0"),
+                fit: BoxFit.cover,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    username.toString(),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    useremail.toString(),
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              )
-            ],
-          )),
-        )),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.white,
-              child: (Row(
-                children: <Widget>[
-                  // ...
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[Divider(color: Colors.black)],
-                    ),
-                  )
-                ],
-              )),
             ),
-            GestureDetector(
-              onTap: () {
-                Get.to(AdminDashboard());
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.home)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Home")),
+            accountName: Text(
+              username,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: 'Nunito',
+              ),
             ),
-            GestureDetector(
-              onTap: () {
-                Get.to(UserList());
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.person)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Users")),
+            accountEmail: Text(
+              useremail,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
+                fontFamily: 'Nunito',
+              ),
             ),
-            GestureDetector(
-              onTap: () {
-                Get.to(AddCategory());
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.category)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Add Category")),
+            // currentAccountPicture: CircleAvatar(
+            //   backgroundColor: Colors.white,
+            //   child: Icon(Icons.person, size: 40, color: Colors.blueAccent),
+            // ),
+          ),
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              children: [
+                buildDrawerItem(Icons.dashboard_rounded, "Dashboard", () {
+                  Get.to(AdminDashboard());
+                }, Colors.blueAccent),
+                buildDrawerItem(Icons.group_rounded, "Users", () {
+                  Get.to(UserList());
+                }, Colors.green),
+                buildDrawerItem(Icons.category_rounded, "Add Category", () {
+                  Get.to(AddCategory());
+                }, Colors.orange),
+                buildDrawerItem(Icons.restaurant_menu_rounded, "Dish", () {
+                  Get.to(AdminDish());
+                }, Colors.redAccent),
+                buildDrawerItem(Icons.settings_rounded, "Settings", () {}, Colors.grey),
+                buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.purple),
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                Get.to(AdminDish());
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.food_bank)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Dish")),
-            ),
-            
-            GestureDetector(
-              onTap: (){
-                
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.settings_sharp)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Setting")),
-            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-
-            GestureDetector(
-              onTap: (){
-                logout();
-              },
-              child: ListTile(
-                  leading: IconButton(
-                    icon: Icon((Icons.login_outlined)),
-                    color: Color.fromARGB(255, 85, 92, 219),
-                    iconSize: 30,
-                    onPressed: () {},
-                  ),
-                  title: Text("Log Out")),
-            ),
-          ],
+  Widget buildDrawerItem(IconData icon, String title, VoidCallback onTap, Color color) {
+    return ListTile(
+      leading: Icon(icon, color: color, size: 28),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'Nunito',
+          color: Colors.black87,
         ),
-        // GestureDetector(onTap: (){},child:ListTile(title:Text("hello"))),  //GestureDetector used for Drawer move one page to other
-      ],
+      ),
+      tileColor: Colors.grey[200], // Light background for each tile
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+      onTap: onTap,
     );
   }
 }

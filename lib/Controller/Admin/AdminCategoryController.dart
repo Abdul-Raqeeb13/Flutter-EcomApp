@@ -46,6 +46,7 @@ class AdminCategoryController extends GetxController {
       snackBarMessagePopup("Success", "Category Added", Colors.green, false);
 
       getCategoryList();
+      
     }
   }
 
