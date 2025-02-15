@@ -211,7 +211,7 @@ class _AdminDishState extends State<AdminDish> {
                           ListView.builder(
                             shrinkWrap: true,
                             physics:
-                                NeverScrollableScrollPhysics(), // Prevents scrolling conflicts
+                                BouncingScrollPhysics(), // Prevents scrolling conflicts
                             itemCount: controller.selectedCategoryDishes.length,
                             itemBuilder: (context, index) {
                               var dish =

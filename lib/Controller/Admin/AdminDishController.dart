@@ -109,9 +109,9 @@ class AdminDishController extends GetxController {
       snackBarMessagePopup("Success", "New dish added", Colors.green, false);
       setLoading(false);
 
-      print(DishData);
+      getDishes(0);
     } catch (e) {
-      print(e);
+      snackBarMessagePopup("Error", e.toString(), Colors.red, true);
     }
   }
 
