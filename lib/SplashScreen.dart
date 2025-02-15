@@ -33,14 +33,11 @@ class _SplashScreenState extends State<SplashScreen> {
   checkUserLoginStatus () async {
     final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
     var userCheck = sharedprefs.getBool("Login") ?? false;
+    
     var usertype = sharedprefs.getString("usertype");
     var userid = sharedprefs.getString("userid");
 
-    print("User logged in: $userCheck"); // Debugging
-    print("User type: $usertype"); // Debugging
-    print("User ID: $userid"); // Debugging
-
-    if (userCheck) {
+    if (userCheck) { 
       var usertype = sharedprefs.getString("usertype");
       var userid = sharedprefs.getString("userid")!;
       if (usertype == "admin") {

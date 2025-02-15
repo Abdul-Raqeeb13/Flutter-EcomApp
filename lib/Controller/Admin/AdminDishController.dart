@@ -35,8 +35,6 @@ class AdminDishController extends GetxController {
 
   getAllCategories() async {
     setLoading(true);
-    print(
-        "=============================================== get categories call");
     // DishList.clear();
 
     await categories
@@ -44,7 +42,6 @@ class AdminDishController extends GetxController {
         .get()
         .then((QuerySnapshot data) {
       final allData = data.docs.map((doc) => doc.data()).toList();
-      // print(allData);
       var newData = {"CategoryKey": "", "CategoryName": "All", "Status": true};
 
       allDish = allData;
@@ -58,8 +55,6 @@ class AdminDishController extends GetxController {
   setDropDownValue(val) {
     dropdownvalue = val["CategoryName"];
     selectedDropDownKey = val["CategoryKey"];
-    print(dropdownvalue);
-    print(selectedDropDownKey);
     update();
   }
 
@@ -80,7 +75,6 @@ class AdminDishController extends GetxController {
   }
 
   uploadImageAndDishDataToStorageAndDB() async {
-    print("wokring");
 
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
@@ -91,8 +85,6 @@ class AdminDishController extends GetxController {
 
       imagelink = profileDownloadURL;
       update();
-      // print(profileDownloadURL);
-      // storedb();
 
       var dishkey = FirebaseDatabase.instance.ref("Dish").push().key;
 
@@ -151,7 +143,6 @@ class AdminDishController extends GetxController {
   }
 
   getDishes(index) async {
-    // print(allDish[index]);
     if (allDish[index]["CategoryKey"] == "") {
       selectedCategoryDishes = [];
       await dishes.get().then((QuerySnapshot data) {
@@ -169,5 +160,12 @@ class AdminDishController extends GetxController {
         update();
       });
     }
+  }
+
+  deleteDish(index) async {
+
+    await dishes.doc(selectedCategoryDishes[index]["DishKey"]).delete();
+    selectedCategoryDishes.removeAt(index);
+    update();
   }
 }

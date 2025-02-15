@@ -19,7 +19,6 @@ class AdminUserController extends GetxController {
         FirebaseFirestore.instance.collection('FlutterUsers');
         await users.get().then((QuerySnapshot snapshot) => {
            snapshot.docs.forEach((doc) {
-              // print("${doc.id} => ${doc.data()}");
               UserList.add(doc.data());
             })
         });

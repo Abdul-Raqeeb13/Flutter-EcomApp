@@ -14,10 +14,10 @@ class UserList extends StatefulWidget {
 }
 
 class _UserListState extends State<UserList> {
-  @override
   var useradmincontroller = Get.put(AdminUserController());
+
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getAllUsersData();
   }
@@ -28,44 +28,93 @@ class _UserListState extends State<UserList> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text("User Page"),
-            ),
-            drawer: Drawer(
-              child: DrawerData(),
-            ),
-            body: GetBuilder<AdminUserController>(builder: (controller) {
-              return Center(
-                child: Column(
-                  children: [
-                    TextWidget(
-                      text: "UserList",
-                      color: Colors.red,
-                      fontFamily: "font1",
-                      fontbold: true,
-                      fontsize: 30.0,
-                    ),
-                
-                    controller.isLoading ? CircularProgressIndicator() : Container(),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.UserList.length ,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 8,
-                          child: ListTile(
-                            title: Text(controller.UserList[index]["UserName"].toString()),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Users",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.blueAccent,
+          elevation: 4,
+        ),
+        drawer: Drawer(child: DrawerData()),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade100, Colors.blue.shade300],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: GetBuilder<AdminUserController>(
+            builder: (controller) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20),
+                  TextWidget(
+                    text: "User List",
+                    color: Colors.blue.shade900,
+                    fontFamily: "Arial",
+                    fontbold: true,
+                    fontsize: 28.0,
+                  ),
+                  SizedBox(height: 10),
+                  controller.isLoading
+                      ? Center(child: CircularProgressIndicator())
+                      : Expanded(
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            itemCount: controller.UserList.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                elevation: 5,
+                                margin: EdgeInsets.symmetric(vertical: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                color: Colors.white,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.blue.shade700,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    controller.UserList[index]["UserName"]
+                                        .toString(),
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      // Add delete functionality
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },)
-                  ],
-                ),
+                        ),
+                ],
               );
-            })
-            )
-            );
+            },
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -2,6 +2,7 @@
 
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
+import 'package:ecomapp/View/Users/Home.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class AuthController extends GetxController {
         "Block" : false
       };
 
-  print(userdata);
+
            CollectionReference users =
           FirebaseFirestore.instance.collection('FlutterUsers');
       await users.doc(userCredential.user!.uid).set(userdata);
@@ -46,7 +47,7 @@ class AuthController extends GetxController {
 
       
       // prefs.setString("uid",uid);
-      print(uid);
+
 
 
       setLoading(false);
@@ -55,7 +56,6 @@ class AuthController extends GetxController {
       Get.to(Login());
       // imageStoreStorage();
     } catch (e) {
-      print(e.toString());
       setLoading(false);
       snackBarMessagePopup("Error", e.toString(), Colors.red, false);
     }
@@ -86,7 +86,7 @@ class AuthController extends GetxController {
           }
           else{
               // setPrefernce(data);
-            // Get.offAll(UserDashboard());
+            Get.offAll(UserDashboard());
           }
         } else {
           FirebaseFirestore.instance
@@ -96,12 +96,11 @@ class AuthController extends GetxController {
               .then((DocumentSnapshot documentSnapshot) {
             if (documentSnapshot.exists) {
               var data = documentSnapshot.data() as Map;
-              print('admin data: ${data["UserType"]}');
                setPreferences(data);
               // Get.to give the back option & Get.ofAll replace the pagr not allow to back the page from where you come
               Get.offAll(AdminDashboard());
             } else {
-              print('Document does not exist on the database');
+              snackBarMessagePopup("Error", "Document does not exist on the database", Colors.red, true);
             }
           });
         }
@@ -112,9 +111,8 @@ class AuthController extends GetxController {
 
       // imageStoreStorage();
     } catch (e) {
-      print(e.toString());
       setLoading(false);
-      snackBarMessagePopup("Error", e.toString(), Colors.red, false);
+      snackBarMessagePopup("Error", e.toString(), const Color.fromARGB(255, 235, 133, 125), false);
     }
   }
 

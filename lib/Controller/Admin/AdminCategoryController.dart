@@ -23,7 +23,6 @@ class AdminCategoryController extends GetxController {
 //  setLoading(true);
     await categories.get().then((QuerySnapshot snapshot) => {
           snapshot.docs.forEach((doc) {
-            // print("${doc.id} => ${doc.data()}");
             CategoryList.add(doc.data());
           })
         });
@@ -32,12 +31,10 @@ class AdminCategoryController extends GetxController {
   }
 
   addCategory(String name) async {
-    print("Add category Function Run");
     if (name.toString().trim().isEmpty) {
       snackBarMessagePopup(
           "Error", "Category Cannot be empty", Colors.red, false);
     } else {
-      // print("Data Get");
       var key = FirebaseDatabase.instance.ref("category").push().key;
       var categoryData = {
         "CategoryName": name,
@@ -60,15 +57,12 @@ class AdminCategoryController extends GetxController {
 
   updateCategoryStatus(index, status, categoryEditName) async {
     if (status == true) {
-      print("Update Cateogory status");
       await categories
           .doc(CategoryList[index]["CategoryKey"])
           .update({"Status": !CategoryList[index]["Status"]});
       CategoryList[index]["Status"] = !CategoryList[index]["Status"];
       update();
     } else {
-      print(categoryEditName);
-      //       print("Update Cateogory name");
       await categories
           .doc(CategoryList[index]["CategoryKey"])
           .update({"CategoryName": categoryEditName});

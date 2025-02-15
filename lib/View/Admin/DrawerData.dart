@@ -4,6 +4,7 @@ import 'package:ecomapp/View/Admin/AdminDish.dart';
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
+import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,6 +35,12 @@ class _DrawerDataState extends State<DrawerData> {
     useremail = sharedprefs.getString("useremail")!;
 
     setState(() {});
+  }
+
+  logout() async {
+    final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
+    sharedprefs.clear();
+    Get.offAll(Login());
   }
 
   @override
@@ -108,8 +115,6 @@ class _DrawerDataState extends State<DrawerData> {
                   ),
                   title: Text("Home")),
             ),
-
-
             GestureDetector(
               onTap: () {
                 Get.to(UserList());
@@ -123,8 +128,6 @@ class _DrawerDataState extends State<DrawerData> {
                   ),
                   title: Text("Users")),
             ),
-
-
             GestureDetector(
               onTap: () {
                 Get.to(AddCategory());
@@ -138,8 +141,6 @@ class _DrawerDataState extends State<DrawerData> {
                   ),
                   title: Text("Add Category")),
             ),
-
-
             GestureDetector(
               onTap: () {
                 Get.to(AdminDish());
@@ -153,24 +154,35 @@ class _DrawerDataState extends State<DrawerData> {
                   ),
                   title: Text("Dish")),
             ),
+            
+            GestureDetector(
+              onTap: (){
+                
+              },
+              child: ListTile(
+                  leading: IconButton(
+                    icon: Icon((Icons.settings_sharp)),
+                    color: Color.fromARGB(255, 85, 92, 219),
+                    iconSize: 30,
+                    onPressed: () {},
+                  ),
+                  title: Text("Setting")),
+            ),
 
 
-            ListTile(
-                leading: IconButton(
-                  icon: Icon((Icons.settings_sharp)),
-                  color: Colors.red,
-                  iconSize: 30,
-                  onPressed: () {},
-                ),
-                title: Text("Setting")),
-            ListTile(
-                leading: IconButton(
-                  icon: Icon((Icons.login_outlined)),
-                  color: Colors.red,
-                  iconSize: 30,
-                  onPressed: () {},
-                ),
-                title: Text("Log Out")),
+            GestureDetector(
+              onTap: (){
+                logout();
+              },
+              child: ListTile(
+                  leading: IconButton(
+                    icon: Icon((Icons.login_outlined)),
+                    color: Color.fromARGB(255, 85, 92, 219),
+                    iconSize: 30,
+                    onPressed: () {},
+                  ),
+                  title: Text("Log Out")),
+            ),
           ],
         ),
         // GestureDetector(onTap: (){},child:ListTile(title:Text("hello"))),  //GestureDetector used for Drawer move one page to other

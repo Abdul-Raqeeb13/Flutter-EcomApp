@@ -173,7 +173,7 @@ class _AdminDishState extends State<AdminDish> {
                             height: 10,
                           ),
                           Container(
-                            color: Colors.red,
+                            color: const Color.fromARGB(255, 144, 139, 138),
                             height: screenHeight * 0.1,
                             width: screenWidth,
                             child: Center(
@@ -208,6 +208,11 @@ class _AdminDishState extends State<AdminDish> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 10,
+                          ),
+
+                          controller.selectedCategoryDishes.length == 0 ? Center(child: Text("No dishes found in this category"),) : 
                           ListView.builder(
                             shrinkWrap: true,
                             physics:
@@ -216,9 +221,7 @@ class _AdminDishState extends State<AdminDish> {
                             itemBuilder: (context, index) {
                               var dish =
                                   controller.selectedCategoryDishes[index];
-                              print(
-                                  "---------------------+++++++--------------------------------------------------------------------");
-                              print(controller.selectedCategoryDishes);
+                              
 
                               return Card(
                                 elevation: 4, // Adds shadow effect
@@ -256,19 +259,19 @@ class _AdminDishState extends State<AdminDish> {
                                     style: TextStyle(
                                         fontSize: 14, color: Colors.grey),
                                   ),
-                                  trailing: ElevatedButton(
+                                  trailing: IconButton(
                                     onPressed: () {
                                       // Add to cart function or order process
+                                      controller.deleteDish(index);
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Colors.blue, // Button color
+                                    icon: Icon(Icons.delete,
+                                        color: Colors.white), // Icon color
+                                    style: IconButton.styleFrom(
+                                      backgroundColor: Color.fromARGB(255, 243, 33, 33), // Button background color
                                       shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                     ),
-                                    child: Text("Buy",
-                                        style: TextStyle(color: Colors.white)),
                                   ),
                                 ),
                               );
