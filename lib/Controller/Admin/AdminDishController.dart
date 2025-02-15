@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class AdminDishController extends GetxController {
       FirebaseFirestore.instance.collection('Category');
   bool isLoading = false;
   var allDish = [];
+  var selectedCategoryDishes = [];
   var dropdownvalue = "";
   var selectedDropDownKey = "";
   var profileImage;
@@ -43,7 +45,10 @@ class AdminDishController extends GetxController {
         .then((QuerySnapshot data) {
       final allData = data.docs.map((doc) => doc.data()).toList();
       // print(allData);
-      allDish = List.from(allData);
+      var newData = {"CategoryKey": "", "CategoryName": "All", "Status": true};
+
+      allDish = allData;
+      allDish.insert(0, newData);
       // dropdownvalue = List.from(allData);
       update();
       setLoading(false);
@@ -66,41 +71,45 @@ class AdminDishController extends GetxController {
       profileImage = File(pickedFile.path);
       filedata = pickedFile;
       filepath = pickedFile.path;
-      // print(filepath.toString().split("/").last);
-      // print(filepath);
-      // print(filedata);
       imageName = filepath.toString().split("/").last;
-      update(); 
-      // uploadImageToStorage();
+      update();
     } else {
-      print("errro upload the profile image");
-      // snackBarMessagePopup("Error", "Select the profile image", false);
-      // print(e); 
+      snackBarMessagePopup(
+          "Error", "Select the profile image", Colors.red, false);
     }
   }
 
-  uploadImageToStorage() async {
+  uploadImageAndDishDataToStorageAndDB() async {
     print("wokring");
 
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
-      Reference storageRef =
-          storage.ref().child('DishesImage/${imageName}');
-      UploadTask upload =  storageRef.putFile(profileImage);
+      Reference storageRef = storage.ref().child('DishesImage/${imageName}');
+      UploadTask upload = storageRef.putFile(profileImage);
       TaskSnapshot snapshot = await upload.whenComplete(() => ());
       String profileDownloadURL = await snapshot.ref.getDownloadURL();
 
       imagelink = profileDownloadURL;
       update();
-      print(profileDownloadURL);
+      // print(profileDownloadURL);
       // storedb();
 
+      var dishkey = FirebaseDatabase.instance.ref("Dish").push().key;
+
       var DishData = {
-        "CategoryKey" : selectedDropDownKey,
-        "CategoryName" : dropdownvalue,
-        "DishName" : dishName.text,
-        // "DishPrice" : 
+        "CategoryKey": selectedDropDownKey,
+        "DishKey": dishkey,
+        "CategoryName": dropdownvalue,
+        "DishName": dishName.text,
+        "DishPrice": dishPrice.text,
+        "DishImage": imagelink
       };
+
+      await dishes.doc(dishkey).set(DishData);
+      snackBarMessagePopup("Success", "New dish added", Colors.green, false);
+      setLoading(false);
+
+      print(DishData);
     } catch (e) {
       print(e);
     }
@@ -124,10 +133,41 @@ class AdminDishController extends GetxController {
     } else if (dishName.text.isEmpty) {
       snackBarMessagePopup(
         "Error",
-        "Select the dish name",
+        "Enter the dish name",
         Colors.red, // Fully visible red color
         true,
       );
-    } else {}
+    } else if (dishPrice.text.isEmpty) {
+      snackBarMessagePopup(
+        "Error",
+        "Enter the dish Price",
+        Colors.red, // Fully visible red color
+        true,
+      );
+    } else {
+      setLoading(true);
+      uploadImageAndDishDataToStorageAndDB();
+    }
+  }
+
+  getDishes(index) async {
+    // print(allDish[index]);
+    if (allDish[index]["CategoryKey"] == "") {
+      selectedCategoryDishes = [];
+      await dishes.get().then((QuerySnapshot data) {
+        final allDishes = data.docs.map((doc) => doc.data()).toList();
+        selectedCategoryDishes = allDishes;
+        update();
+      });
+    } else {
+      await dishes
+          .where("CategoryKey", isEqualTo: allDish[index]["CategoryKey"])
+          .get()
+          .then((QuerySnapshot data) {
+        final allDishes = data.docs.map((doc) => doc.data()).toList();
+        selectedCategoryDishes = allDishes;
+        update();
+      });
+    }
   }
 }
