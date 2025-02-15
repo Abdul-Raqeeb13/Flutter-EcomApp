@@ -21,8 +21,10 @@ class AdminDishController extends GetxController {
   var filedata;
   var imagelink;
   var filepath = "";
+  var imageName = "";
   final ImagePicker _picker = ImagePicker();
   var dishName = TextEditingController();
+  var dishPrice = TextEditingController();
 
   setLoading(val) {
     isLoading = val;
@@ -64,7 +66,10 @@ class AdminDishController extends GetxController {
       profileImage = File(pickedFile.path);
       filedata = pickedFile;
       filepath = pickedFile.path;
-      print(filepath.toString().split("/").last);
+      // print(filepath.toString().split("/").last);
+      // print(filepath);
+      // print(filedata);
+      imageName = filepath.toString().split("/").last;
       update(); 
       // uploadImageToStorage();
     } else {
@@ -80,8 +85,8 @@ class AdminDishController extends GetxController {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference storageRef =
-          storage.ref().child('DishesImage/${filedata.path}');
-      UploadTask upload = storageRef.putFile(profileImage);
+          storage.ref().child('DishesImage/${imageName}');
+      UploadTask upload =  storageRef.putFile(profileImage);
       TaskSnapshot snapshot = await upload.whenComplete(() => ());
       String profileDownloadURL = await snapshot.ref.getDownloadURL();
 
@@ -89,6 +94,13 @@ class AdminDishController extends GetxController {
       update();
       print(profileDownloadURL);
       // storedb();
+
+      var DishData = {
+        "CategoryKey" : selectedDropDownKey,
+        "CategoryName" : dropdownvalue,
+        "DishName" : dishName.text,
+        // "DishPrice" : 
+      };
     } catch (e) {
       print(e);
     }

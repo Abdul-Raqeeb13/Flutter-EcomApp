@@ -148,6 +148,10 @@ class _AdminDishState extends State<AdminDish> {
                           child: TextFieldWidget(
                               controller: controller.dishName, obscureText: false, hintText: "Enter thr dish name",),
                         ),
+                        Center(
+                          child: TextFieldWidget(
+                              controller: controller.dishPrice, obscureText: false, hintText: "Enter the dish price",),
+                        ),
                         ElevatedButtonWidget(
                             buttonText: "Add Dish",
                             buttonwidth: screenWidth,
