@@ -1,6 +1,7 @@
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:ecomapp/View/Auth/Signup.dart';
+import 'package:ecomapp/View/Users/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,8 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (usertype == "admin") {
         Get.offAll(AdminDashboard());
       } else {
-        print("user");
-        // Get.offAll(UserDashboard());
+        Get.offAll(UserDashboard());
       }
     } else {
       Get.offAll(Login());

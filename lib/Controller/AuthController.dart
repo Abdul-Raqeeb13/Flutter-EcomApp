@@ -86,6 +86,7 @@ class AuthController extends GetxController {
           }
           else{
               // setPrefernce(data);
+               setPreferences(data);
             Get.offAll(UserDashboard());
           }
         } else {
@@ -125,5 +126,6 @@ class AuthController extends GetxController {
     sharedprefs.setString("useremail", data["UserEmail"]);
     sharedprefs.setString("usertype", data["UserType"]);
     sharedprefs.setString("userid", data["UserId"]);
+    print(data["UserType"]);
   }
 }

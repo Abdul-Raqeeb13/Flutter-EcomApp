@@ -44,6 +44,8 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   shared_preferences: ^2.2.3
   image_picker: ^1.1.2
+  carousel_slider: ^5.0.0
+  text_marquee: ^0.0.2
 
 dev_dependencies:
   flutter_test:
