@@ -18,7 +18,7 @@ class UserHomeController extends GetxController {
 
   getCategoryList() async {
 //  setLoading(true);
-    await categories.get().then((QuerySnapshot snapshot) => {
+    await categories.where("Status", isEqualTo: true).get().then((QuerySnapshot snapshot) => {
           snapshot.docs.forEach((doc) {
             CategoryList.add(doc.data());
           })
@@ -27,4 +27,7 @@ class UserHomeController extends GetxController {
     // print(CategoryList);
     update();
   }
+
+
+
 }

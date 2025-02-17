@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_new, prefer_const_constructors
+// ignore_for_file: unnecessary_new, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecomapp/Controller/User/HomeController.dart';
@@ -56,7 +56,8 @@ class _UserDashboardState extends State<UserDashboard> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        title: Text("User Dashboard"),
+        backgroundColor: Colors.blue,
+        title: Text("User Dashboard", style: TextStyle(color: Colors.white),),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -65,71 +66,72 @@ class _UserDashboardState extends State<UserDashboard> {
               child: CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
-                  aspectRatio: 2.0,
+                  aspectRatio: 1.9,
                   enlargeCenterPage: true,
+                  viewportFraction: 1,
                 ),
                 items: imageSliders,
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: userHomeController.CategoryList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 15,
-                  crossAxisSpacing: 15,
-                  childAspectRatio: 0.92, // Adjusts height-to-width ratio
-                ),
-                itemBuilder: (context, index) {
-                  var category = userHomeController.CategoryList[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Get.to(UserViewSpecificDish(
-                          categoryData:
-                              userHomeController.CategoryList[index]));
-                      print("Clicked on ${category["CategoryName"]}");
-                    },
-                    child: Card(
-                      elevation: 18,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(20), // Rounded edges
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            colors: [Colors.blueAccent, Colors.purpleAccent],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
+              child: GetBuilder<UserHomeController>(
+                builder: (controller) {
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: controller.CategoryList.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 15,
+                      crossAxisSpacing: 15,
+                      childAspectRatio: 0.92,
+                    ),
+                    itemBuilder: (context, index) {
+                      var category = controller.CategoryList[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(UserViewSpecificDish(
+                              categoryData: controller.CategoryList[index]));
+                        },
+                        child: Card(
+                          elevation: 18,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons
-                                  .category, // Change to a dynamic icon if needed
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              category["CategoryName"],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.blueAccent,
+                                  Colors.purpleAccent
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
                             ),
-                          ],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.category,
+                                    size: 50, color: Colors.white),
+                                SizedBox(height: 10),
+                                Text(
+                                  category["CategoryName"],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
               ),

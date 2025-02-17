@@ -31,14 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  checkUserLoginStatus () async {
+  checkUserLoginStatus() async {
     final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
     var userCheck = sharedprefs.getBool("Login") ?? false;
-    
+
     var usertype = sharedprefs.getString("usertype");
     var userid = sharedprefs.getString("userid");
 
-    if (userCheck) { 
+    if (userCheck) {
       var usertype = sharedprefs.getString("usertype");
       var userid = sharedprefs.getString("userid")!;
       if (usertype == "admin") {
@@ -49,6 +49,10 @@ class _SplashScreenState extends State<SplashScreen> {
     } else {
       Get.offAll(Login());
     }
+
+      // Get.offAll(Login());
+
+
   }
 
   @override
@@ -69,9 +73,15 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.network(
-                  "https://img.freepik.com/free-vector/online-shopping-concept-illustration_114360-1081.jpg",
-                  height: 150,
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(50), // Adjust the radius as needed
+                  child: Image.network(
+                    "https://img.freepik.com/free-vector/online-shopping-concept-illustration_114360-1081.jpg",
+                    height: 150,
+                    fit: BoxFit
+                        .cover, // Ensures the image covers the area properly
+                  ),
                 ),
                 const SizedBox(height: 20),
                 const Text(

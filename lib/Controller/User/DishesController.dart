@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 class UserDishes extends GetxController {
+
   var isLoading = false;
   var specificCategorydishList = [];
   CollectionReference dishes =
@@ -17,7 +18,8 @@ class UserDishes extends GetxController {
   // }
 
   getDishesByCategoryId(categoryKey) async {
-    print(categoryKey);
+    specificCategorydishList = [];
+    update();
 //  setLoading(true);
     await dishes.where("CategoryKey", isEqualTo: categoryKey).get().then((QuerySnapshot snapshot) => {
           snapshot.docs.forEach((doc) {
@@ -25,7 +27,10 @@ class UserDishes extends GetxController {
           })
         });
     // setLoading(false);
-    print(specificCategorydishList);
     update();
+  }
+
+  addToCartDishes(dishData){
+    print(dishData);
   }
 }
