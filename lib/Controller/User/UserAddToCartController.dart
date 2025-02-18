@@ -4,12 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
-class UserDishes extends GetxController {
+class userAddtoCartController extends GetxController {
 
   var isLoading = false;
-  var specificCategorydishList = [];
+  var userAddtoCart = [];
 
-  addToCartDishes(dishData){
-    print(dishData);
+  addToCartDishes(data){
+    // print(data);
+    userAddtoCart.add(data);
+    print(userAddtoCart);
+    update();
+    // update();
   }
+
+  checkDishCart(data){
+    // print(data)  ;
+    var check = false;
+    for (var i = 0; i < userAddtoCart.length; i++) {
+      if (userAddtoCart[i]["DishKey"] == data["DishKey"]) {
+        print("found smae sish");
+        check = true;
+        break;
+      } 
+    }
+
+    return check;
+  }
+  
 }

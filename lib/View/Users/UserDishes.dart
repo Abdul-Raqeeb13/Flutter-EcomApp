@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:ecomapp/Controller/User/UserAddToCartController.dart';
 import 'package:ecomapp/Controller/User/UserDishesController.dart';
 import 'package:ecomapp/View/Users/UserAddToCart.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class UserViewSpecificDish extends StatefulWidget {
 
 class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
   final UserDishes dishesController = Get.put(UserDishes());
+  // final addTocartController = Get.put(userAddtoCartController());
 
   @override
   void initState() {
@@ -67,7 +69,7 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                   child: Image.network(
                                     dish["DishImage"],
                                     width: double.infinity, // Full width
-                                    height: screenHeight*0.3,
+                                    height: screenHeight * 0.3,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -98,13 +100,28 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                     Expanded(
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(20)),
+                                            ),
+                                            builder: (context) {
+                                              return Container(
+                                                height: screenHeight *
+                                                    0.35, // Fixed height in pixels
+                                                padding: EdgeInsets.all(16),
+                                                child:
+                                                    AddToCart(dishData: dish),
+                                              );
+                                            },
+                                          );
 
-                                          showModalBottomSheet(context: context, builder: (context){
-                                            return AddToCart(dishData: dish);
-                                          });
-                                          controller.addToCartDishes(dish);
+                                        
                                           // Add to Cart Functionality
-                                          print("${dish["DishName"]} added to cart!");
+                                          // print("${dish["DishName"]} added to cart!");
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.blue,
@@ -120,7 +137,8 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                       child: ElevatedButton(
                                         onPressed: () {
                                           // Order Now Functionality
-                                          print("Order Now for ${dish["DishName"]}");
+                                          print(
+                                              "Order Now for ${dish["DishName"]}");
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.green,
