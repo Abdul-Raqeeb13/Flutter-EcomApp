@@ -1,5 +1,7 @@
-import 'package:ecomapp/Controller/User/DishesController.dart';
-import 'package:ecomapp/View/Users/AddToCart.dart';
+// ignore_for_file: prefer_const_constructors
+
+import 'package:ecomapp/Controller/User/UserDishesController.dart';
+import 'package:ecomapp/View/Users/UserAddToCart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,6 +67,7 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                   child: Image.network(
                                     dish["DishImage"],
                                     width: double.infinity, // Full width
+                                    height: screenHeight*0.3,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

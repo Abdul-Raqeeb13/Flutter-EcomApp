@@ -23,8 +23,6 @@ class UserHomeController extends GetxController {
             CategoryList.add(doc.data());
           })
         });
-    // setLoading(false);
-    // print(CategoryList);
     update();
   }
 

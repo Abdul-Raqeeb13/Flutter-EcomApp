@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:ecomapp/Controller/Admin/AdminUserListController.dart';
-import 'package:ecomapp/View/Admin/DrawerData.dart';
+import 'package:ecomapp/View/Admin/AdminDrawer.dart';
 import 'package:ecomapp/Wdigets/Text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, unused_label, prefer_const_literals_to_create_immutables
 
 import 'package:ecomapp/Controller/Admin/AdminDishController.dart';
-import 'package:ecomapp/View/Admin/DrawerData.dart';
+import 'package:ecomapp/View/Admin/AdminDrawer.dart';
 import 'package:ecomapp/Wdigets/Button.dart';
 import 'package:ecomapp/Wdigets/TextField.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,8 @@ class _AdminDishState extends State<AdminDish> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Dish Management", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          title: Text("Dish Management",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           centerTitle: true,
           backgroundColor: Colors.blueAccent,
         ),
@@ -59,18 +60,22 @@ class _AdminDishState extends State<AdminDish> {
                               return Wrap(
                                 children: [
                                   ListTile(
-                                    leading: Icon(Icons.image, color: Colors.blueAccent),
+                                    leading: Icon(Icons.image,
+                                        color: Colors.blueAccent),
                                     title: Text('Pick from Gallery'),
                                     onTap: () {
-                                      controller.pickProfileImage(ImageSource.gallery);
+                                      controller.pickProfileImage(
+                                          ImageSource.gallery);
                                       Navigator.pop(context);
                                     },
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.camera, color: Colors.blueAccent),
+                                    leading: Icon(Icons.camera,
+                                        color: Colors.blueAccent),
                                     title: Text('Take a Photo'),
                                     onTap: () {
-                                      controller.pickProfileImage(ImageSource.camera);
+                                      controller
+                                          .pickProfileImage(ImageSource.camera);
                                       Navigator.pop(context);
                                     },
                                   ),
@@ -80,13 +85,13 @@ class _AdminDishState extends State<AdminDish> {
                           );
                         },
                         child: CircleAvatar(
-                          radius: 75,
-                          backgroundColor: Colors.grey[200],
-                          backgroundImage: controller.profileImage != null
-                              ? FileImage(controller.profileImage) as ImageProvider
-                              : NetworkImage(
-                                  "https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-996.jpg")
-                        ),
+                            radius: 75,
+                            backgroundColor: Colors.grey[200],
+                            backgroundImage: controller.profileImage != null
+                                ? FileImage(controller.profileImage)
+                                    as ImageProvider
+                                : NetworkImage(
+                                    "https://img.freepik.com/free-vector/image-upload-concept-illustration_114360-996.jpg")),
                       ),
                       SizedBox(height: 10),
                       Container(
@@ -101,11 +106,14 @@ class _AdminDishState extends State<AdminDish> {
                           isExpanded: true,
                           dropdownColor: Colors.white,
                           underline: SizedBox(),
-                          hint: Text(controller.dropdownvalue.isEmpty ? "Select Category" : controller.dropdownvalue),
+                          hint: Text(controller.dropdownvalue.isEmpty
+                              ? "Select Category"
+                              : controller.dropdownvalue),
                           items: controller.allDish.map((items) {
                             return DropdownMenuItem(
                               value: items,
-                              child: Text(items["CategoryName"], style: TextStyle(fontSize: 16)),
+                              child: Text(items["CategoryName"],
+                                  style: TextStyle(fontSize: 16)),
                             );
                           }).toList(),
                           onChanged: (newValue) {
@@ -114,8 +122,18 @@ class _AdminDishState extends State<AdminDish> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      TextFieldWidget(controller: controller.dishName, hintText: "Enter dish name", obscureText: false, width: screenWidth,),
-                      TextFieldWidget(controller: controller.dishPrice, hintText: "Enter dish price", obscureText: false,width: screenWidth,),
+                      TextFieldWidget(
+                        controller: controller.dishName,
+                        hintText: "Enter dish name",
+                        obscureText: false,
+                        width: screenWidth,
+                      ),
+                      TextFieldWidget(
+                        controller: controller.dishPrice,
+                        hintText: "Enter dish price",
+                        obscureText: false,
+                        width: screenWidth,
+                      ),
                       controller.isLoading
                           ? CircularProgressIndicator()
                           : ElevatedButtonWidget(
@@ -126,7 +144,7 @@ class _AdminDishState extends State<AdminDish> {
                       SizedBox(height: 20),
 
                       Container(
-                        width: screenWidth*0.8,
+                        width: screenWidth * 0.8,
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: Colors.blueAccent,
@@ -135,16 +153,39 @@ class _AdminDishState extends State<AdminDish> {
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                            children: controller.allDish.asMap().entries.map((entry) {
+                            children:
+                                controller.allDish.asMap().entries.map((entry) {
                               int index = entry.key;
                               var dish = entry.value;
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                  onPressed: () => controller.getDishes(index),
-                                  child: Text(dish["CategoryName"].toString().toUpperCase(),
-                                      style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: controller.allDish[index]
+                                                ["Selected"] ==
+                                            true
+                                        ? Color.fromARGB(255, 12, 201, 211)
+                                        : Colors.white,
+                                    // Text color when not selected
+                                  ),
+                                  // controller.allDish[index]["Selected"] == true ?
+                                  onPressed: () {
+                                    controller.getDishes(index);
+                                  },
+                                  child: Text(
+                                    dish["CategoryName"]
+                                        .toString()
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                      color: controller.allDish[index]
+                                                  ["Selected"] ==
+                                              true
+                                          ? Colors.white
+                                               // Text color when selected
+                                          : Colors
+                                              .black, // Text color when not selected
+                                    ),
+                                  ),
                                 ),
                               );
                             }).toList(),
@@ -153,35 +194,51 @@ class _AdminDishState extends State<AdminDish> {
                       ),
                       SizedBox(height: 20),
                       controller.selectedCategoryDishes.isEmpty
-                          ? Center(child: Text("No dishes found in this category"))
+                          ? Center(
+                              child: Text("No dishes found in this category"))
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: controller.selectedCategoryDishes.length,
+                              itemCount:
+                                  controller.selectedCategoryDishes.length,
                               itemBuilder: (context, index) {
-                                var dish = controller.selectedCategoryDishes[index];
+                                var dish =
+                                    controller.selectedCategoryDishes[index];
                                 return Card(
                                   elevation: 5,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
                                   child: ListTile(
                                     contentPadding: EdgeInsets.all(10),
                                     leading: ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(dish["DishImage"], width: 60, height: 60, fit: BoxFit.cover,
-                                          errorBuilder: (context, error, stackTrace) {
-                                        return Icon(Icons.image_not_supported, size: 60, color: Colors.grey);
+                                      child: Image.network(dish["DishImage"],
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover, errorBuilder:
+                                              (context, error, stackTrace) {
+                                        return Icon(Icons.image_not_supported,
+                                            size: 60, color: Colors.grey);
                                       }),
                                     ),
                                     title: Text(dish["DishName"],
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                    subtitle: Text("${dish["CategoryName"]} - ₹${dish["DishPrice"]}",
-                                        style: TextStyle(fontSize: 14, color: Colors.grey)),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
+                                    subtitle: Text(
+                                        "${dish["CategoryName"]} - ₹${dish["DishPrice"]}",
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.grey)),
                                     trailing: IconButton(
-                                      onPressed: () => controller.deleteDish(index),
-                                      icon: Icon(Icons.delete, color: Colors.white),
+                                      onPressed: () =>
+                                          controller.deleteDish(index),
+                                      icon: Icon(Icons.delete,
+                                          color: Colors.white),
                                       style: IconButton.styleFrom(
                                         backgroundColor: Colors.redAccent,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
                                       ),
                                     ),
                                   ),

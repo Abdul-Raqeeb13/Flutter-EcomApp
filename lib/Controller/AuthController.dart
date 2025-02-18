@@ -2,7 +2,7 @@
 
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
-import 'package:ecomapp/View/Users/Home.dart';
+import 'package:ecomapp/View/Users/UserHome.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

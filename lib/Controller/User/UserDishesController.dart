@@ -30,7 +30,5 @@ class UserDishes extends GetxController {
     update();
   }
 
-  addToCartDishes(dishData){
-    print(dishData);
-  }
+
 }

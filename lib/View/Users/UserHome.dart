@@ -1,9 +1,10 @@
 // ignore_for_file: unnecessary_new, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecomapp/Controller/User/HomeController.dart';
+import 'package:ecomapp/Controller/User/UserHomeController.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecomapp/View/Users/Dishes.dart';
+import 'package:ecomapp/View/Users/UserDishes.dart';
+import 'package:ecomapp/View/Users/UserDrawer.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -55,6 +56,10 @@ class _UserDashboardState extends State<UserDashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          // drawer: UserDrawerData(),
+          drawer: Drawer(
+            child: UserDrawerData(),
+          ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
         title: Text("User Dashboard", style: TextStyle(color: Colors.white),),

@@ -41,13 +41,22 @@ class AdminDishController extends GetxController {
         .where("Status", isEqualTo: true)
         .get()
         .then((QuerySnapshot data) {
+          
       final allData = data.docs.map((doc) => doc.data()).toList();
-      var newData = {"CategoryKey": "", "CategoryName": "All", "Status": true};
+          var newList = [];
+      for (var i = 0; i < allData.length; i++) {
+            var newData = allData[i] as Map;
+            newData["Selected"] = false;
+            newList.add(newData);
+          }
+      var newData = {"CategoryKey": "", "CategoryName": "All", "Status": true, "Selected":true};
 
-      allDish = allData;
+      allDish = newList;
       allDish.insert(0, newData);
+      print(allDish);
       // dropdownvalue = List.from(allData);
       update();
+      getDishes(0);
       setLoading(false);
     });
   }
@@ -148,6 +157,12 @@ class AdminDishController extends GetxController {
   }
 
   getDishes(index) async {
+
+      for (var i = 0; i < allDish.length; i++) {
+           allDish[i]["Selected"] = false;
+          }
+          
+    allDish[index]["Selected"] = true;
     if (allDish[index]["CategoryKey"] == "") {
       selectedCategoryDishes = [];
       await dishes.get().then((QuerySnapshot data) {

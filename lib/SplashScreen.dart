@@ -1,7 +1,7 @@
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:ecomapp/View/Auth/Signup.dart';
-import 'package:ecomapp/View/Users/Home.dart';
+import 'package:ecomapp/View/Users/UserHome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
