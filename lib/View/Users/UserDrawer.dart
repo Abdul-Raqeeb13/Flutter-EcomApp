@@ -5,6 +5,7 @@ import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
+import 'package:ecomapp/View/Users/UserAllAddToCart.dart';
 import 'package:ecomapp/View/Users/UserHome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -84,7 +85,10 @@ class _UserDrawerDataState extends State<UserDrawerData> {
                 buildDrawerItem(Icons.dashboard_rounded, "Dashboard", () {
                   Get.to(UserDashboard());
                 }, Colors.blueAccent),
-                buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.purple),
+                buildDrawerItem(Icons.shopping_cart, "Add To carts", () {
+                  Get.to(UserAllAddToCart());
+                }, Colors.blueAccent),
+                buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.blueAccent),
               ],
             ),
           ),

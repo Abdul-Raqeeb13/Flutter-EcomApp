@@ -2,7 +2,7 @@
 
 import 'package:ecomapp/Controller/User/UserAddToCartController.dart';
 import 'package:ecomapp/Controller/User/UserDishesController.dart';
-import 'package:ecomapp/View/Users/UserAddToCart.dart';
+import 'package:ecomapp/View/Users/UserBottomeAddToCart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
