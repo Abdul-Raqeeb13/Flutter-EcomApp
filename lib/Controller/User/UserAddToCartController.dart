@@ -15,8 +15,10 @@ class userAddtoCartController extends GetxController {
 
   userAddToCard(data) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance(); 
+  data["quantity"] = 1;
     userCard.add(data);
     CardList.add(data);
+    
   //   List<String> jsonStringList = userCard.map((card) => jsonEncode(card)).toList();
   // await prefs.setStringList('addToCard', jsonStringList); 
     update();
@@ -32,10 +34,13 @@ class userAddtoCartController extends GetxController {
   // }
 
   getData(){
-    userCard = CardList;
+    userCard = userCard;
     update();
   }
 
+  getAllCard(){
+
+  }
 
   checkCard(data){
     // print(data)  ;
@@ -50,5 +55,31 @@ class userAddtoCartController extends GetxController {
 
     return check;
   }
+
+
+  void incrementQuantity(int index) {
+  if (index >= 0 && index < userCard.length) {
+    if (userCard[index]["quantity"] == null) {
+      userCard[index]["quantity"] = 1;
+    } else {
+      userCard[index]["quantity"] += 1;
+    update();
+    }
+    update();
+  }
+}
+
+void decrementQuantity(int index) {
+  if (index >= 0 && index < userCard.length) {
+    if (userCard[index]["quantity"] != null && userCard[index]["quantity"] > 1) {
+      userCard[index]["quantity"] -= 1;
+    } else {
+      userCard.removeAt(index);
+    update();
+    }
+    update();
+  }
+}
+
   
 }

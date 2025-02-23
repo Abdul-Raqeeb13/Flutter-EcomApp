@@ -56,13 +56,16 @@ class _UserDashboardState extends State<UserDashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          // drawer: UserDrawerData(),
-          drawer: Drawer(
-            child: UserDrawerData(),
-          ),
+      // drawer: UserDrawerData(),
+      drawer: Drawer(
+        child: UserDrawerData(),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text("User Dashboard", style: TextStyle(color: Colors.white),),
+        title: Text(
+          "User Dashboard",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

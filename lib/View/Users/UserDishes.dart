@@ -44,7 +44,37 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
         body: GetBuilder<UserDishes>(
           builder: (controller) {
             return controller.specificCategorydishList.isEmpty
-                ? Center(child: Text("No dishes available"))
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.no_food,
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "No Dishes Available",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          "Please check back later or explore other categories.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 : ListView.builder(
                     padding: EdgeInsets.all(10),
                     itemCount: controller.specificCategorydishList.length,
@@ -119,7 +149,6 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                             },
                                           );
 
-                                        
                                           // Add to Cart Functionality
                                           // print("${dish["DishName"]} added to cart!");
                                         },
