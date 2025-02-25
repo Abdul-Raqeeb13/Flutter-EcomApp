@@ -4,6 +4,7 @@ import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:ecomapp/View/Users/UserHome.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
+import 'package:ecomapp/helper/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,6 +89,8 @@ class AuthController extends GetxController {
               // setPrefernce(data);
                setPreferences(data);
             Get.offAll(UserDashboard());
+            uid = userCredential.user!.uid;
+
           }
         } else {
           FirebaseFirestore.instance
@@ -107,6 +110,7 @@ class AuthController extends GetxController {
         }
       });
 
+      // uid = userCredential.user!.uid;
       setLoading(false);
       snackBarMessagePopup("Success", "Login Success", Colors.green, false);
 

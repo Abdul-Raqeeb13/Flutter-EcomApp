@@ -44,6 +44,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               return controller.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
                           SizedBox(height: 14), // Prevents top overflow
@@ -82,6 +83,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                 DashboardCard(
                                   title: "Pending Orders",
                                   value: controller.pendingOrder.toString(),
+                                  icon: Icons.pending_actions,
+                                  color: Colors.red,
+                                ),
+                                DashboardCard(
+                                  title: "Accepted Orders",
+                                  value: controller.acceptedOrder.toString(),
                                   icon: Icons.pending_actions,
                                   color: Colors.red,
                                 ),

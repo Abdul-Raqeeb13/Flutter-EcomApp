@@ -78,6 +78,7 @@ class _LoginState extends State<Login> {
                           obscureText: false,
                         ),
                         TextFieldWidget(
+                          // enableInteractiveSelective = false used to prevent copy password
                           controller: passwordcontroller,
                           hintText: "Enter the password",
                           prefixIcon: Icons.lock,

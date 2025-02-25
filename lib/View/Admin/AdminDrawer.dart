@@ -2,6 +2,7 @@
 
 import 'package:ecomapp/View/Admin/AdminDish.dart';
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
+import 'package:ecomapp/View/Admin/AdminOrdersTabBar.dart';
 import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
@@ -92,7 +93,9 @@ class _DrawerDataState extends State<DrawerData> {
                 buildDrawerItem(Icons.restaurant_menu_rounded, "Dish", () {
                   Get.to(AdminDish());
                 }, Colors.redAccent),
-                buildDrawerItem(Icons.settings_rounded, "Settings", () {}, Colors.grey),
+                buildDrawerItem(Icons.list_alt, "Orders", () {
+                  Get.to(AdminOrders());
+                }, Color.fromARGB(255, 203, 51, 145)),
                 buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.purple),
               ],
             ),

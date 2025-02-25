@@ -7,6 +7,7 @@ import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:ecomapp/View/Users/UserAllAddToCart.dart';
 import 'package:ecomapp/View/Users/UserHome.dart';
+import 'package:ecomapp/View/Users/UserOrderTabBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -87,6 +88,9 @@ class _UserDrawerDataState extends State<UserDrawerData> {
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.shopping_cart, "Add To carts", () {
                   Get.to(UserAllAddToCart());
+                }, Colors.blueAccent),
+                buildDrawerItem(Icons.shopping_cart, "Orders", () {
+                   Get.to(Orders());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.blueAccent),
               ],

@@ -17,7 +17,7 @@ class AddToCart extends StatefulWidget {
 
 class _AddToCartState extends State<AddToCart> {
   // int quantity = 1; // Default quantity
-  var controller = Get.put(userAddtoCartController());
+var controller = Get.put(UserAddtoCartController());
   var status = false;
   @override
   void initState() {
