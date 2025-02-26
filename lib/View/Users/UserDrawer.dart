@@ -6,6 +6,7 @@ import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
 import 'package:ecomapp/View/Users/UserAllAddToCart.dart';
+import 'package:ecomapp/View/Users/UserGoogleMap.dart';
 import 'package:ecomapp/View/Users/UserHome.dart';
 import 'package:ecomapp/View/Users/UserOrderTabBar.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +95,10 @@ class _UserDrawerDataState extends State<UserDrawerData> {
                 buildDrawerItem(Icons.shopping_cart, "Orders", () {
                   Navigator.of(context).pop(); // Close the drawer first
                   Get.to(Orders());
+                }, Colors.blueAccent),
+                buildDrawerItem(Icons.map, "Google Map", () {
+                  Navigator.of(context).pop(); // Close the drawer first
+                  Get.to(GoogleMaps());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout,
                     Colors.blueAccent),

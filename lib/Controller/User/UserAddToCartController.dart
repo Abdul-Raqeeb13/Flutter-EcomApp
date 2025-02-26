@@ -84,7 +84,6 @@ class UserAddtoCartController extends GetxController {
   }
 
   createPaymentIntent(String amount, String currency) async {
-
     final uri = Uri.parse('https://api.stripe.com/v1/payment_intents');
     final headers = {
       'Authorization': 'Bearer $secretKey',
@@ -94,7 +93,7 @@ class UserAddtoCartController extends GetxController {
     Map<String, dynamic> body = {
       'amount': calculateAmount(amount),
       'currency': currency,
-    };
+    }; 
 
     try {
       final response = await http.post(uri, headers: headers, body: body);
