@@ -52,101 +52,133 @@ class _UserDashboardState extends State<UserDashboard> {
     userHomeController.getCategoryList();
   }
 
+  Future<bool> _onWillPop() async {
+    bool exitApp = false;
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Exit App"),
+        content: Text("Are you sure you want to close the app?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              exitApp = false;
+              Get.back();// Close dialog, exit app
+            },
+            child: Text("No"),
+          ),
+          TextButton(
+            onPressed: () {
+              exitApp = true;
+              Get.back();// Close dialog, exit app
+            },
+            child: Text("Yes"),
+          ),
+        ],
+      ),
+    );
+    return exitApp; // Prevents immediate closure until the user confirms
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      // drawer: UserDrawerData(),
-      drawer: Drawer(
-        child: UserDrawerData(),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text(
-          "User Dashboard",
-          style: TextStyle(color: Colors.white),
+Widget build(BuildContext context) {
+  return WillPopScope(
+    onWillPop: _onWillPop, // Attach your function here
+    child: SafeArea(
+      child: Scaffold(
+        drawer: Drawer(
+          child: UserDrawerData(),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 1.9,
-                  enlargeCenterPage: true,
-                  viewportFraction: 1,
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          title: Text(
+            "User Dashboard",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 1.9,
+                    enlargeCenterPage: true,
+                    viewportFraction: 1,
+                  ),
+                  items: imageSliders,
                 ),
-                items: imageSliders,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GetBuilder<UserHomeController>(
-                builder: (controller) {
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: controller.CategoryList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 15,
-                      crossAxisSpacing: 15,
-                      childAspectRatio: 0.92,
-                    ),
-                    itemBuilder: (context, index) {
-                      var category = controller.CategoryList[index];
-                      return GestureDetector(
-                        onTap: () {
-                          Get.to(UserViewSpecificDish(
-                              categoryData: controller.CategoryList[index]));
-                        },
-                        child: Card(
-                          elevation: 18,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GetBuilder<UserHomeController>(
+                  builder: (controller) {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: controller.CategoryList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 15,
+                        childAspectRatio: 0.92,
+                      ),
+                      itemBuilder: (context, index) {
+                        var category = controller.CategoryList[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(UserViewSpecificDish(
+                                categoryData: controller.CategoryList[index]));
+                          },
+                          child: Card(
+                            elevation: 18,
+                            shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blueAccent,
-                                  Colors.purpleAccent
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.blueAccent,
+                                    Colors.purpleAccent
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.category,
+                                      size: 50, color: Colors.white),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    category["CategoryName"],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
                               ),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.category,
-                                    size: 50, color: Colors.white),
-                                SizedBox(height: 10),
-                                Text(
-                                  category["CategoryName"],
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
-          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
-    ));
-  }
+    ),
+  );
+}
+
 }

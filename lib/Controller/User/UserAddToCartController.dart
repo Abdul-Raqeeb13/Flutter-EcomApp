@@ -7,12 +7,104 @@ import 'package:ecomapp/Wdigets/PopUpMessage.dart';
 import 'package:ecomapp/helper/global.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class UserAddtoCartController extends GetxController {
   var isLoading = false;
   var userCard = [];
+
+  Map<String, dynamic>? paymentIntent;
+
+  Future<void> makePayment(amount) async {
+    try {
+      paymentIntent = await createPaymentIntent(amount.toString(), 'RS');
+      paymentIntent = await createPaymentIntent(amount.toString(), 'USD');
+
+      //STEP 2: Initialize Payment Sheet
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret: paymentIntent!['client_secret'],
+                //Gotten from payment intent
+
+                  style: ThemeMode.dark,
+                  merchantDisplayName: 'My'))
+          .then((value) {});
+
+      //STEP 3: Display Payment sheet
+      displayPaymentSheet(amount);
+    } catch (err) {
+      print('==========================> errorrr: $err');
+      throw Exception(err);
+    }
+  }
+
+  displayPaymentSheet(amount) async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value) async {
+        print(paymentIntent!["id"].toString());
+        OrderNow(amount);
+
+
+        paymentIntent = null;
+      }).onError((error, stackTrace) {
+        print('Error is:---> $error');
+
+        throw Exception(error);
+      });
+    } on StripeException catch (e) {
+      print('Error is:---> $e');
+      const AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
+                Text("Payment Failed"),
+              ],
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  String calculateAmount(String amount) {
+    final calculatedAmout = (int.parse(amount)) * 100;
+    return calculatedAmout.toString();
+  }
+
+  createPaymentIntent(String amount, String currency) async {
+
+    final uri = Uri.parse('https://api.stripe.com/v1/payment_intents');
+    final headers = {
+      'Authorization': 'Bearer $secretKey',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
+    Map<String, dynamic> body = {
+      'amount': calculateAmount(amount),
+      'currency': currency,
+    };
+
+    try {
+      final response = await http.post(uri, headers: headers, body: body);
+
+      return json.decode( response.body);
+    } catch (err) {
+      throw Exception(err.toString());
+    }
+  }
+
   TextEditingController address = TextEditingController();
   TextEditingController contactno = TextEditingController();
   // var isDismissible;
@@ -131,7 +223,7 @@ class UserAddtoCartController extends GetxController {
       child: Text("Continue"),
       onPressed: () {
         // Get.back();
-        OrderNow(totalprice);
+        makePayment(totalprice);
       },
     );
 

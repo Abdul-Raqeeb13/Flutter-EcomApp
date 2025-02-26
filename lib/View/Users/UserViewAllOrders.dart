@@ -67,7 +67,7 @@ class _UserOrdersState extends State<UserOrders> {
                           Text(
                             '${orderController.orders[index]["orderkey"].toString()}',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
                             ),
@@ -75,7 +75,7 @@ class _UserOrdersState extends State<UserOrders> {
                           Text(
                             "\$${orderController.orders[index]["totalPrice"]}",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: Colors.green,
                             ),

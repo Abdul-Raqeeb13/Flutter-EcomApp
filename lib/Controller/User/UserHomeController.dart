@@ -26,6 +26,4 @@ class UserHomeController extends GetxController {
     update();
   }
 
-
-
 }

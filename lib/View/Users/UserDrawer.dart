@@ -84,15 +84,19 @@ class _UserDrawerDataState extends State<UserDrawerData> {
             child: ListView(
               children: [
                 buildDrawerItem(Icons.dashboard_rounded, "Dashboard", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(UserDashboard());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.shopping_cart, "Add To carts", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(UserAllAddToCart());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.shopping_cart, "Orders", () {
-                   Get.to(Orders());
+                  Navigator.of(context).pop(); // Close the drawer first
+                  Get.to(Orders());
                 }, Colors.blueAccent),
-                buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.blueAccent),
+                buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout,
+                    Colors.blueAccent),
               ],
             ),
           ),
@@ -101,7 +105,8 @@ class _UserDrawerDataState extends State<UserDrawerData> {
     );
   }
 
-  Widget buildDrawerItem(IconData icon, String title, VoidCallback onTap, Color color) {
+  Widget buildDrawerItem(
+      IconData icon, String title, VoidCallback onTap, Color color) {
     return ListTile(
       leading: Icon(icon, color: color, size: 28),
       title: Text(

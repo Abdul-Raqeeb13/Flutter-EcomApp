@@ -13,10 +13,10 @@ class UserAllAddToCart extends StatefulWidget {
 }
 
 class _UserAllAddToCartState extends State<UserAllAddToCart> {
-var controller = Get.put(UserAddtoCartController());
+  var controller = Get.put(UserAddtoCartController());
   var totalPrice = 0;
 
-   void initState() {
+  void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((data) {
@@ -156,15 +156,18 @@ var controller = Get.put(UserAddtoCartController());
                   );
           },
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButtonWidget(
-            onPress: () => controller.showBottomSheetFunc(
-                context, totalPrice), // Wrap in a function
-            buttonText: "Order Now",
-            buttonwidth: screenWidth,
-          ),
-        ),
+
+        bottomNavigationBar: controller.userCard.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButtonWidget(
+                  onPress: () =>
+                      controller.showBottomSheetFunc(context, totalPrice),
+                  buttonText: "Order Now",
+                  buttonwidth: screenWidth,
+                ),
+              )
+            : SizedBox(), // Hide when cart is empty
       ),
     );
   }

@@ -44,7 +44,7 @@ class AdminDashboardController extends GetxController {
     pendingOrder = 0;
     completeOrder = 0;
     cancelOrder = 0;
-    acceptedOrder = 0;
+    acceptedOrder = 0; 
 
     await allOrders.get().then((QuerySnapshot snapshot) {
       for (var i = 0; i < snapshot.docs.length; i++) {
