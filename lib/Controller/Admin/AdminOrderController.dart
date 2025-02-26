@@ -7,23 +7,53 @@ class AdminGetOrderController extends GetxController {
   // obx rule for defininf varible
   CollectionReference allOrders =
       FirebaseFirestore.instance.collection('allOrder');
+  CollectionReference userOrder =
+      FirebaseFirestore.instance.collection('userOrder');
   RxBool isLoading = true.obs;
   RxList Orders = [].obs;
   setLoading(val) {
     isLoading.value = val;
   }
 
-
-  ///////////// 1:00:16
   getOrders(status) async {
-  //   await allOrders.get().then((QuerySnapshot snapshot) {
-  //     var Orderdata = [];
-  //     snapshot.docs.forEach((doc) {
-  //       Orderdata.add(doc.data);
-  //     });
-  //     Orders.value = Orderdata;
-  //     print("-----------------------------");
-  //     print(Orders.value);
-  //   });
+    setLoading(true);
+    await allOrders.get().then((QuerySnapshot snapshot) {
+      var Orderdata = [];
+      snapshot.docs.forEach((doc) {
+        var newdata = doc.data() as Map;
+        if (newdata["status"] == status) {
+          Orderdata.add(doc.data());
+        }
+      });
+      Orders.value = Orderdata;
+      setLoading(false);
+    });
+  }
+
+
+    UpdateOrder(key, type, reason,index) async {
+    
+    await allOrders.doc(key).update({"status": type, "reason": reason});
+    await userOrder.doc(key).update({"status": type,"reason": reason});
+    var newdata = Orders.value;
+    newdata.removeAt(index);
+    Orders.value=newdata;
+    update();
+
+    
+
+  }
+
+ InProgressOrder(key, type, reason,index) async {
+ CollectionReference AllOrderRef =
+        FirebaseFirestore.instance.collection('allOrder');
+    await AllOrderRef.doc(key).update({"status": type, "reason": reason});
+    CollectionReference AllUserOrderRef =
+        FirebaseFirestore.instance.collection('userOrder');
+    await AllUserOrderRef.doc(key).update({"status": type,"reason": reason});
+    var newdata = Orders.value;
+    newdata.removeAt(index);
+    Orders.value=newdata;
+    update();
   }
 }
