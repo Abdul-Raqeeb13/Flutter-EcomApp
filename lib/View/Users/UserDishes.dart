@@ -141,7 +141,7 @@ class _UserViewSpecificDishState extends State<UserViewSpecificDish> {
                                             builder: (context) {
                                               return Container(
                                                 height: screenHeight *
-                                                    0.35, // Fixed height in pixels
+                                                    0.34, // Fixed height in pixels
                                                 padding: EdgeInsets.all(16),
                                                 child:
                                                     AddToCart(dishData: dish),

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:ecomapp/Controller/User/UserAddToCartController.dart';
 import 'package:ecomapp/Wdigets/PopUpMessage.dart';
@@ -17,7 +17,7 @@ class AddToCart extends StatefulWidget {
 
 class _AddToCartState extends State<AddToCart> {
   // int quantity = 1; // Default quantity
-var controller = Get.put(UserAddtoCartController());
+  var controller = Get.put(UserAddtoCartController());
   var status = false;
   @override
   void initState() {
@@ -75,12 +75,19 @@ var controller = Get.put(UserAddtoCartController());
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-
-                  controller.userAddToCard(widget.dishData);
-                  snackBarMessagePopup(
-                      "Success", "Item added success", Colors.green, false);
+                onPressed: () async {
+                  if (status) {
+                    Navigator.pop(context);
+                    await controller.userRemoveAddToCard(widget.dishData);
+                     snackBarMessagePopup("Success", "Item Remove From cart",
+                        Colors.green, false);
+                    // Uncomment the following line if you need to close the current screen
+                  } else {
+                    Navigator.pop(context);
+                    controller.userAddToCard(widget.dishData);
+                    snackBarMessagePopup("Success", "Item added successfully",
+                        Colors.green, false);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,

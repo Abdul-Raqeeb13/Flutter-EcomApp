@@ -14,7 +14,7 @@ class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -67,6 +67,7 @@ class _OrdersState extends State<Orders> {
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Pending"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Accepted"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("In Progress"))),
+                  Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Rejected"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Completed"))),
                 ],
               ),
@@ -78,6 +79,7 @@ class _OrdersState extends State<Orders> {
             UserOrders(status: "pending"),
             UserOrders(status: "accepted"),
             UserOrders(status: "inprogress"),
+            UserOrders(status: "rejected"),
             UserOrders(status: "completed"),
           ],
         ),

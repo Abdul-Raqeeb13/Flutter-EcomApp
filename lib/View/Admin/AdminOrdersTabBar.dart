@@ -15,7 +15,7 @@ class _AdminOrdersState extends State<AdminOrders> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         drawer: Drawer(
           child: DrawerData(),
@@ -71,6 +71,7 @@ class _AdminOrdersState extends State<AdminOrders> {
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Pending"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Accepted"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("In Progress"))),
+                  Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Rejected"))),
                   Tab(child: Padding(padding: EdgeInsets.all(8), child: Text("Completed"))),
                 ],
               ),
@@ -83,6 +84,7 @@ class _AdminOrdersState extends State<AdminOrders> {
             AdminViewAllOrders(status: "pending"),
             AdminViewAllOrders(status: "accepted"),  
             AdminViewAllOrders(status: "inprogress"),
+            AdminViewAllOrders(status: "rejected"),
             AdminViewAllOrders(status: "completed"),
           ],
         ),

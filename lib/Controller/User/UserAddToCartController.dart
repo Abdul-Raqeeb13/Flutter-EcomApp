@@ -84,6 +84,7 @@ class UserAddtoCartController extends GetxController {
   }
 
   createPaymentIntent(String amount, String currency) async {
+    var secretKey = 'sk_test_51QwozwRrjvbEsEGT7SMEGUktsjKrlzKe9Gbaly12tMuaen4albIkhSPCRuZneIJTuabBbHD7aE03vVf3TB2IHm9m00WWrOK0bF';
     final uri = Uri.parse('https://api.stripe.com/v1/payment_intents');
     final headers = {
       'Authorization': 'Bearer $secretKey',
@@ -119,6 +120,12 @@ class UserAddtoCartController extends GetxController {
     update();
   }
 
+ userRemoveAddToCard(data) async {
+  print("Renove//////////////////////////");
+    userCard.removeWhere((item) => item["DishKey"] == data["DishKey"]);
+    update();
+  print(userCard);
+  }
   // getAllCard() async {
   //   // jsonStringList.map((jsonString) => Person.fromJson(jsonDecode(jsonString))).
   //     final SharedPreferences prefs = await SharedPreferences.getInstance();

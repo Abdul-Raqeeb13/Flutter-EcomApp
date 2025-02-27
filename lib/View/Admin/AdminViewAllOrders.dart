@@ -140,15 +140,28 @@ class _AdminViewAllOrdersState extends State<AdminViewAllOrders> {
                                 _buildActionButtons(
                                   onAccept: () => controller.UpdateOrder(
                                       order["orderkey"], "accepted", "", index),
-                                  onReject: () {},
+                                  onReject: () {
+                                    controller.UpdateOrder(
+                                      order["orderkey"], "rejected", "", index);
+                                  },
                                 )
                               else if (widget.status == "inprogress")
                                 _buildSingleActionButton(
                                   text: "Complete",
                                   color: Colors.green,
                                   onPressed: () => controller.InProgressOrder(
-                                      order["orderkey"], "complete", "", index),
+                                      order["orderkey"], "completed", "", index),
+                                )
+
+                              else if (widget.status == "accepted")
+                                _buildSingleActionButton(
+                                  text: "Start",
+                                  color: Colors.green,
+                                  onPressed: () => controller.UpdateOrder(
+                                      order["orderkey"], "inprogress", "", index),
                                 ),
+                                
+                              
                             ],
                           ),
                         ),

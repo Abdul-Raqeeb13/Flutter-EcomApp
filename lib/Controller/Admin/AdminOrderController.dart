@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecomapp/View/Admin/AdminViewAllOrders.dart';
 import 'package:get/get.dart';
 
 // form previous we use getBuilder to get the updated data on run time but now we use obx both are same but the diffenece is getbuilder complete updated the UI but obx just chnage the part of UI where he get the update data
@@ -39,21 +40,20 @@ class AdminGetOrderController extends GetxController {
     newdata.removeAt(index);
     Orders.value=newdata;
     update();
-
-    
+    getOrders("pending");
+    AdminViewAllOrders(status: type);
 
   }
 
  InProgressOrder(key, type, reason,index) async {
- CollectionReference AllOrderRef =
-        FirebaseFirestore.instance.collection('allOrder');
-    await AllOrderRef.doc(key).update({"status": type, "reason": reason});
-    CollectionReference AllUserOrderRef =
-        FirebaseFirestore.instance.collection('userOrder');
-    await AllUserOrderRef.doc(key).update({"status": type,"reason": reason});
+    await allOrders.doc(key).update({"status": type, "reason": reason});
+    await userOrder.doc(key).update({"status": type,"reason": reason});
     var newdata = Orders.value;
     newdata.removeAt(index);
     Orders.value=newdata;
     update();
+        AdminViewAllOrders(status: type);
+
   }
+
 }

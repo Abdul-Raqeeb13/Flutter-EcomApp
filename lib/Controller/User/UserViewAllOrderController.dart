@@ -18,7 +18,14 @@ class viewAllController extends GetxController {
     orders.clear();
     update();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    uid == "" ? prefs.getString("uid") : uid;
+    print("[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+    print(prefs.getString("userid"));
+    if (uid.isEmpty) {
+      uid = prefs.getString("userid") ?? "";
+    }
+
+    print("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    print(uid);
 
     CollectionReference userOrderInst =
         FirebaseFirestore.instance.collection("userOrder");

@@ -11,7 +11,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 Future<void> main() async {
    WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp();
-  
+   Stripe.publishableKey = "pk_test_51QwozwRrjvbEsEGTxaGnMy2vysDU0wRSSuZYfE6jVr6WGxYf60Kq8FXkCyoLHzjk6WxnvWnEjkgGnbbpVbww4o7i00a2dJbczY";
   runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
