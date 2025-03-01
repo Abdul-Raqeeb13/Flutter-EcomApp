@@ -139,10 +139,10 @@ class _AdminViewAllOrdersState extends State<AdminViewAllOrders> {
                               if (widget.status == "pending")
                                 _buildActionButtons(
                                   onAccept: () => controller.UpdateOrder(
-                                      order["orderkey"], "accepted", "", index),
+                                      order["orderkey"], "accepted", "", index, "pending"),
                                   onReject: () {
                                     controller.UpdateOrder(
-                                      order["orderkey"], "rejected", "", index);
+                                      order["orderkey"], "rejected", "", index, "pending");
                                   },
                                 )
                               else if (widget.status == "inprogress")
@@ -150,7 +150,7 @@ class _AdminViewAllOrdersState extends State<AdminViewAllOrders> {
                                   text: "Complete",
                                   color: Colors.green,
                                   onPressed: () => controller.InProgressOrder(
-                                      order["orderkey"], "completed", "", index),
+                                      order["orderkey"], "completed", "", index, "inprogress"),
                                 )
 
                               else if (widget.status == "accepted")
@@ -158,7 +158,7 @@ class _AdminViewAllOrdersState extends State<AdminViewAllOrders> {
                                   text: "Start",
                                   color: Colors.green,
                                   onPressed: () => controller.UpdateOrder(
-                                      order["orderkey"], "inprogress", "", index),
+                                      order["orderkey"], "inprogress", "", index, "accepted"),
                                 ),
                                 
                               

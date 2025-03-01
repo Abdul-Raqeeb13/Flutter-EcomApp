@@ -103,9 +103,9 @@ Widget build(BuildContext context) {
                 child: CarouselSlider(
                   options: CarouselOptions(
                     autoPlay: true,
-                    aspectRatio: 1.9,
+                    aspectRatio: 1.75,
                     enlargeCenterPage: true,
-                    viewportFraction: 1,
+                    // viewportFraction: 1,
                   ),
                   items: imageSliders,
                 ),

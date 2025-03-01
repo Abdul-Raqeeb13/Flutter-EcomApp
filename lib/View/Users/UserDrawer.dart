@@ -5,6 +5,7 @@ import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Admin/AdminUserList.dart';
 import 'package:ecomapp/View/Admin/AdminCategory.dart';
 import 'package:ecomapp/View/Auth/Login.dart';
+import 'package:ecomapp/View/Users/UserChatScreen/UserChatList.dart';
 import 'package:ecomapp/View/Users/UserAllAddToCart.dart';
 import 'package:ecomapp/View/Users/UserGoogleMap.dart';
 import 'package:ecomapp/View/Users/UserHome.dart';
@@ -99,6 +100,10 @@ class _UserDrawerDataState extends State<UserDrawerData> {
                 buildDrawerItem(Icons.map, "Google Map", () {
                   Navigator.of(context).pop(); // Close the drawer first
                   Get.to(GoogleMaps());
+                }, Colors.blueAccent),
+                buildDrawerItem(Icons.message, "Chat", () {
+                  Navigator.of(context).pop(); // Close the drawer first
+                  Get.to(ChatsScreen());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout,
                     Colors.blueAccent),

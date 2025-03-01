@@ -32,7 +32,7 @@ class AdminGetOrderController extends GetxController {
   }
 
 
-    UpdateOrder(key, type, reason,index) async {
+    UpdateOrder(key, type, reason,index, previousstatus) async {
     
     await allOrders.doc(key).update({"status": type, "reason": reason});
     await userOrder.doc(key).update({"status": type,"reason": reason});
@@ -40,20 +40,19 @@ class AdminGetOrderController extends GetxController {
     newdata.removeAt(index);
     Orders.value=newdata;
     update();
-    getOrders("pending");
-    AdminViewAllOrders(status: type);
+    getOrders(previousstatus);
 
   }
 
- InProgressOrder(key, type, reason,index) async {
+ InProgressOrder(key, type, reason,index, previousstatus) async {
     await allOrders.doc(key).update({"status": type, "reason": reason});
     await userOrder.doc(key).update({"status": type,"reason": reason});
     var newdata = Orders.value;
     newdata.removeAt(index);
     Orders.value=newdata;
     update();
-        AdminViewAllOrders(status: type);
-
+    getOrders(previousstatus);
+    
   }
 
 }

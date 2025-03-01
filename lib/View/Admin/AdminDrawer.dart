@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ecomapp/View/Admin/AdminChatScreens/AdminchatList.dart';
 import 'package:ecomapp/View/Admin/AdminDish.dart';
 import 'package:ecomapp/View/Admin/AdminDashboard.dart';
 import 'package:ecomapp/View/Admin/AdminOrdersTabBar.dart';
@@ -82,20 +83,30 @@ class _DrawerDataState extends State<DrawerData> {
             child: ListView(
               children: [
                 buildDrawerItem(Icons.dashboard_rounded, "Dashboard", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(AdminDashboard());
                 }, Colors.blueAccent),
                 buildDrawerItem(Icons.group_rounded, "Users", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(UserList());
                 }, Colors.green),
                 buildDrawerItem(Icons.category_rounded, "Add Category", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(AddCategory());
                 }, Colors.orange),
                 buildDrawerItem(Icons.restaurant_menu_rounded, "Dish", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(AdminDish());
                 }, Colors.redAccent),
                 buildDrawerItem(Icons.list_alt, "Orders", () {
+                  Navigator.of(context).pop(); // Close the drawer first
                   Get.to(AdminOrders());
                 }, Color.fromARGB(255, 203, 51, 145)),
+                buildDrawerItem(Icons.message, "Chat", () {
+                  Navigator.of(context).pop(); // Close the drawer first
+                  Get.to(AdminChatList());
+                }, Color.fromARGB(255, 203, 51, 145)),
+              
                 buildDrawerItem(Icons.exit_to_app_rounded, "Log Out", logout, Colors.purple),
               ],
             ),
