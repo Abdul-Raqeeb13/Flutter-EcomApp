@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:ecomapp/Controller/User/UserChatController.dart';
-import 'package:ecomapp/View/Users/UserChatScreen/UserMessageScreen.dart';
+import 'package:ecomapp/Controller/Admin/AdminChatController.dart';
+import 'package:ecomapp/View/Admin/AdminChatScreens/AdminMessage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminChatList extends StatefulWidget {
@@ -15,7 +14,15 @@ class AdminChatList extends StatefulWidget {
 }
 
 class _AdminChatListState extends State<AdminChatList> {
-  var chatController = Get.put(ChatController());
+  final chatController = Get.put(AdminChatController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      chatController.getChatList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,32 +41,48 @@ class _AdminChatListState extends State<AdminChatList> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return
-                Card(
-                  elevation: 10,
-                  child: ListTile(
-                    title: Text("Users"),
-                  ),
-                );
-              }
-            ),
+      body: Obx(() {
+  if (chatController.UserCharList.isEmpty) {
+    return const Center(child: Text("No chats available"));
+  }
+  return ListView.builder(
+    itemCount: chatController.UserCharList.length,
+    itemBuilder: (context, index) {
+      var chatData = chatController.UserCharList[index];
+
+      return Card(
+        elevation: 10,
+        child: ListTile(
+          title: Text(
+            chatData["SenderName"]?.toString() ?? "Unknown User",
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
+          subtitle: Text(
+            chatData["LastMessage"]?.toString() ?? "No message available",
+          ),
+          trailing: const Icon(Icons.chat),
+          onTap: () async {
+            final SharedPreferences sharedprefs =
+                await SharedPreferences.getInstance();
+            var senderId = sharedprefs.getString("userid");
+
+            await chatController.cretaeConverstaion(
+                chatController.UserCharList[index]["SenderId"]);
+
+            Get.to(AdminMessageScreen(
+                RecieverId: chatController.UserCharList[index]["SenderId"],
+                SenderId: senderId));
+          },
+        ),
+      );
+    },
+  );
+}),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: const Color(0xFF00BF6D),
-        child: const Icon(
-          Icons.person_add_alt_1,
-          color: Colors.white,
-        ),
+        child: const Icon(Icons.person_add_alt_1, color: Colors.white),
       ),
     );
   }

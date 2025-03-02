@@ -12,18 +12,51 @@ class AdminChatController extends GetxController {
   RxList UserCharList = [].obs;
 
 
-  getChatList(){
-    getAllUsers() async {
-    // setLoading(true);
-    UserCharList.clear();
-    var data = await 
-        FirebaseFirestore.instance.collection('converstaions').where("ReceiverID", isEqualTo: "aActlqLEsjNnRQ6hi24zVQC2Yyx2").get();
-        var UserChat = data.docs;
-        for (var i = 0; i < UserCharList.length; i++) {
-          UserCharList.add(UserChat[i]);
-        }
+  getChatList() async {
+  // Clear list before adding new data
+  UserCharList.clear();
+
+  var data = await FirebaseFirestore.instance
+      .collection('converstaions')
+      .where("ReceiverID", isEqualTo: "aActlqLEsjNnRQ6hi24zVQC2Yyx2")
+      .get();
+
+  // Print the first document (for debugging)
+  if (data.docs.isNotEmpty) {
+    print(data.docs[0].data()); // ✅ Correct way to print Firestore document
   }
+
+  // Extract data and store it in UserCharList
+  for (var doc in data.docs) {
+    UserCharList.add(doc.data()); // ✅ Correct way to add documents
   }
+
+  print(UserCharList); // Debugging to see the list of users
+}
+
+ cretaeConverstaion(senderIdUser) async {
+    var data =
+        await FirebaseFirestore.instance.collection("converstaions").get();
+    var p = data.docs;
+    var con_id = "";
+    final SharedPreferences sharedprefs = await SharedPreferences.getInstance();
+    var senderName = sharedprefs.getString("username");
+    var senderEmail = sharedprefs.getString("useremail");
+    var senderId = sharedprefs.getString("userid");
+
+    for (var i = 0; i < p.length; i++) {
+      if (p[i]["SenderId"] == senderIdUser && p[i]["ReceiverID"] == senderId) {
+        con_id = p[i]["ConversationId"];
+      }
+    }
+
+  currentConverstaion_id = con_id;
+  }
+
+    
+
+
+}
 
    // for user side 
   // SendMessage(receiver_id) async {
@@ -94,4 +127,4 @@ class AdminChatController extends GetxController {
     
 
 
-}
+ 
